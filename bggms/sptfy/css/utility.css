@@ -1,0 +1,39 @@
+.redBorder{
+    border: 2px solid red;
+}
+.greenBorder{
+    border: 2px solid green;
+}
+.blackBorder{
+    border: 2px solid black;
+}
+.whiteBorder{
+    border: 2px solid white;
+}
+.cyanBorder{
+    border: 2px solid cyan;
+}
+.invert_1{
+    filter: invert(1);
+}
+.invert_07{
+    filter: invert(0.7);
+}
+.flexBox{
+    display: flex;
+}
+.justifyContentCenter{
+    justify-content: center;
+}
+.alignItemsCenter{
+    align-items: center;
+}
+.cursorPointer{
+    cursor: pointer;
+}
+.displayNone{
+    display: none;
+}
+.open {
+  display: flex !important;
+}

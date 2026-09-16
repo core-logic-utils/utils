@@ -1,0 +1,483 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Reseting margin and padding of all elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /*So that border will not affect height and width*/
+}
+
+/* Example for a scrollable div */
+::-webkit-scrollbar {
+    width: 10px;
+    /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ffffff85;
+    /* Color of the draggable handle */
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffffb9;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    /* Color of the scrollbar track */
+}
+
+body {
+    scrollbar-gutter: stable;
+    height: 100vh;
+    box-sizing: border-box;
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: black;
+    color: white;
+}
+
+header {
+    height: 8vh;
+}
+
+header nav {
+    height: 8vh;
+    justify-content: center;
+}
+
+header nav .navBox1 {
+    width: 5vw;
+}
+
+header nav .navBox1 img {
+    width: 35px;
+    cursor: pointer;
+}
+header nav .navBox1 span{
+    display: none;
+}
+
+header nav .navBox2 {
+    width: 35vw;
+    gap: 10px;
+}
+
+header nav .navBox2 .homeIcon {
+    background-color: #303030;
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+header nav .navBox2 .homeIcon img {
+    width: 20px;
+}
+
+header nav .navBox2 .searchBar {
+    position: relative;
+    width: 30vw;
+}
+
+header nav .navBox2 .searchBar .searchIcon {
+    width: 2vw;
+    position: absolute;
+    left: 10px;
+    top: 7px;
+    cursor: pointer;
+}
+
+header nav .navBox2 .searchBar .searchIcon img {
+    width: 25px;
+}
+
+header nav .navBox2 .searchBar input {
+    border: none;
+    background-color: #303030;
+    color: white;
+    border-radius: 20px;
+    width: 30vw;
+    /* height: 10vh; */
+    font-size: 15px;
+    padding: 12px 40px;
+}
+
+header nav .navBox2 .searchBar input::placeholder {
+    color: #b3b3b3;
+}
+
+header nav .navBox2 .searchBar .browseIcon::before {
+    content: '|';
+    position: absolute;
+    font-weight: 100;
+    font-size: 30px;
+    top: 40%;
+    left: -40%;
+    transform: translate(-50%, -50%);
+    color: #b3b3b3;
+}
+
+header nav .navBox2 .searchBar .browseIcon {
+    position: absolute;
+    right: 15px;
+    top: 7px;
+    cursor: pointer;
+}
+
+header nav .navBox2 .searchBar .browseIcon img {
+    width: 22px;
+}
+
+header nav .navBox3 {
+    width: 20vw;
+}
+
+header nav .navBox4 {
+    gap: 10px;
+    width: 40vw;
+    color: #b3b3b3;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+header nav .navBox4 .seperator {
+    font-size: 30px;
+    font-weight: 200;
+    color: white;
+}
+
+header nav .navBox4 .installAppButton {
+    gap: 6px;
+    font-size: 15px;
+    margin: 0 0 0 10px;
+}
+
+header nav .navBox4 .installAppButton img {
+    width: 18px;
+}
+
+header nav .navBox4 .loginButton {
+    background-color: white;
+    color: black;
+    padding: 12px 25px;
+    border-radius: 20px;
+}
+
+header nav .navHamburger{
+    display: none;
+}
+header nav .navHamburger img{
+    width: 30px;
+}
+
+main {
+    /* Subtracting height of header:5vh and footer:5vh and border:2px */
+    height: calc(100vh - 22vh - 2px);
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    width: calc(100vw - 10px);
+    /* border: 2px solid red; */
+    margin: 0px 5px;
+}
+
+aside {
+    box-sizing: border-box;
+    width: 25vw;
+    /* height: calc(100vh - 22vh - 4px); */
+    /* overflow-y: auto; */
+    overflow-x: hidden;
+    background-color: #121212;
+    border-radius: 5px;
+}
+
+aside .asideHamburger{
+    display: none;
+}
+aside .sidebarHeading {
+    justify-content: space-between;
+    padding: 15px;
+}
+
+aside .sidebarHeading h3 {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+aside .sidebarContainer {
+    /* Overflow Y is hidden show that scroll bar will appear only on hover */
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-color: #1f1f1f;
+    border-radius: 5px;
+    margin: 5px;
+    flex-direction: column;
+    gap: 1px;
+    height: 50vh;
+    flex-direction: column;
+    /* Scrollbar gutter stable prevents layout shifts because the scrollbar space is always allocated even if it is hidden */
+    scrollbar-gutter: stable;
+}
+
+aside .sidebarContainer:hover {
+    /* Scrollonly visible if hover */
+    overflow-y: auto;
+}
+
+aside .sidebarContainer .song {
+    justify-content: flex-start;
+    margin-bottom: 1px;
+}
+
+aside .sidebarContainer .song:hover {
+    background-color: #363636;
+    transition: all, 0.25s;
+}
+
+aside .sidebarContainer .song .songThumbnail {
+    width: 55px;
+    height: 55px;
+    padding: 5px;
+}
+
+aside .sidebarContainer .song .songThumbnail img {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+aside .sidebarContainer .song .songDetails {
+    flex-direction: column;
+    font-size: 14px;
+}
+
+aside .sidebarContainer .song .songDetails .songArtist {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.781);
+}
+
+aside .sidebarFooter {
+    flex-direction: column;
+    font-size: 11px;
+    gap: 25px;
+    margin-top: 15px;
+    margin-left: 8px;
+}
+
+aside .sidebarFooter>* {
+    /* Assigning cursor pointer to each element of sidebarFooter */
+    cursor: pointer;
+}
+
+aside .sidebarFooter ul {
+    width: 23vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 6px 0px;
+}
+
+aside .sidebarFooter ul li {
+    list-style: none;
+}
+
+aside .sidebarFooter .language {
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 4px;
+    width: 100px;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+
+}
+
+.whiteVerticalLine {
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.whiteVerticalLine:hover {
+    border: 1px solid white;
+}
+
+section {
+    width: 75vw;
+    /* background-color: #202020; */
+    background-image: linear-gradient(to bottom, #202020, #121212);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+    border-radius: 6px;
+}
+
+section:hover {
+    overflow-y: auto;
+}
+
+section h2 {
+    font-weight: 600;
+    padding: 10px 20px;
+}
+
+section .spotifyPlaylists {
+    padding: 0px 20px;
+    flex-wrap: wrap;
+    gap: 25px 15px;
+}
+
+section .spotifyPlaylists .cardContainer {
+    width: 180px;
+    height: 230px;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+section .spotifyPlaylists .cardContainer::after {
+    content: url('/img/hoverplay.svg');
+    padding: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #3be477;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0;
+}
+
+section .spotifyPlaylists .cardContainer:hover {
+    background-color: #4d4c4c57;
+    transition: all, 0.25s;
+
+}
+
+section .spotifyPlaylists .cardContainer:hover::after {
+    transition: top, 0.25s;
+    transform: translateY(-50px);
+    opacity: 1;
+}
+
+section .spotifyPlaylists .cardContainer .cardCoverImage {
+    width: 155px;
+    height: 155px;
+}
+
+section .spotifyPlaylists .cardContainer .cardCoverImage img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+}
+
+section .spotifyPlaylists .cardContainer .cardTitle {
+    width: 155px;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+section .spotifyPlaylists .cardContainer .cardArtist {
+    font-size: 13px;
+    color: #b3b3b3;
+    width: 155px;
+}
+
+footer {
+    height: 14vh;
+
+}
+
+footer .footerBox1 {
+    width: 30vw;
+    padding: 0 6px;
+}
+
+footer .footerBox1 .footerSongCover {
+    width: 60px;
+    height: 60px;
+}
+
+footer .footerBox1 .footerSongCover img {
+    border-radius: 5px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+footer .footerBox1 .footerSongDetails {
+    padding: 0px 8px;
+    line-height: 1.4;
+}
+
+footer .footerBox1 .footerSongDetails .footerSongTitle {
+    font-size: 14px;
+}
+
+footer .footerBox1 .footerSongDetails .footerSongArtist {
+    font-size: 13px;
+    color: #b3b3b3;
+}
+
+footer .footerBox2 {
+    width: 40vw;
+    flex-direction: column;
+}
+
+footer .footerBox2 .playbarControl {
+    padding: 10px;
+    gap: 15px;
+}
+
+footer .footerBox2 .seekbar {
+    padding: 15px;
+}
+
+footer .footerBox2 .seekbar .seekbarLine {
+    background-color: white;
+    width: 100%;
+    height: 2px;
+    position: relative;
+}
+
+footer .footerBox2 .seekbar .seekbarLine .seekbarCircle {
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: -4px;
+    left: 0%;
+    transition: left, 0.5s;
+}
+
+footer .footerBox3 {
+    width: 30vw;
+    flex-direction: column;
+}
+
+footer .footerBox3 .volume {
+    padding: 10px;
+    gap: 10px;
+    width: 100%;
+}
+
+footer .footerBox3 .volume input {
+    height: 5px;
+    width: 80px;
+    filter: grayscale(1) invert(1) sepia(1);
+}
+
+footer .footerBox3 .duration {
+    padding: 5px;
+    /* width: 90%; */
+}

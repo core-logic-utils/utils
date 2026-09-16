@@ -1,0 +1,298 @@
+@media (width < 1320px) {
+    header {
+        height: auto;
+        padding: 5px;
+    }
+
+    nav {
+        height: auto;
+        gap: 10px;
+    }
+
+    header nav .navBox4 {
+        width: 60vw;
+    }
+
+    main {
+        height: calc(100vh - 24vh - 2px);
+    }
+
+}
+
+@media (width < 1255px) {
+    aside {
+        width: 30vw;
+    }
+
+    aside .sidebarFooter {
+        gap: 18px;
+    }
+}
+
+@media (width < 1199px) {
+    nav {
+        height: auto;
+        gap: 20px;
+    }
+
+    header nav .navBox3 {
+        display: none;
+    }
+}
+
+@media (width < 960px) {
+    header nav {
+        justify-content: space-around;
+    }
+
+    header nav .navBox4 {
+        display: none;
+    }
+
+    header nav .navHamburger {
+        display: flex;
+    }
+
+    header nav .navBox2 {
+        width: auto;
+    }
+
+    header nav .navBox2 .searchBar {
+        width: auto;
+    }
+
+    header nav .navBox2 .searchBar input {
+        width: 60vw;
+    }
+
+    aside {
+        width: 35vw;
+    }
+}
+
+@media (width< 928px) {
+    section .spotifyPlaylists {
+        padding: 0px 20px;
+        flex-wrap: wrap;
+        gap: 25px 50px;
+        justify-content: center;
+    }
+
+    aside {
+        width: 42vw;
+    }
+
+    aside .sidebarFooter ul {
+        width: 32vw;
+    }
+}
+
+@media (width < 850px) {
+    aside {
+        width: 60vw;
+    }
+
+    section {
+        width: auto;
+    }
+}
+
+@media (width < 809px) {
+    aside .sidebarContainer {
+        height: 45vh;
+    }
+
+    aside .sidebarFooter ul {
+        width: 30vw;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (width < 683px) {
+    aside {
+        width: 85vw;
+    }
+}
+
+@media (width < 653px) {
+    header nav {
+        justify-content: center;
+    }
+
+    main {
+        height: calc(100vh - 30vh - 2px);
+    }
+
+    aside {
+        width: 12vw;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Hide all children except the hamburger */
+    aside>div:not(:first-child) {
+        display: none;
+    }
+
+    /* When sidebar is open */
+    aside.open {
+        width: 80vw;
+        position: absolute;
+        z-index: 3;
+    }
+
+    /* When open class is added to aside, show them again */
+    aside.open>div:not(:first-child) {
+        display: flex;
+        /* Show all items when open */
+    }
+
+
+    aside .asideHamburger {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    aside .asideHamburger img {
+        width: 30px;
+
+    }
+    section{
+        width: auto;
+    }
+
+    footer {
+        height: 20vh;
+
+    }
+
+    footer .footerBox1 .footerSongCover {
+        display: none;
+    }
+
+    footer .footerBox2 {
+        justify-content: center;
+    }
+
+    footer .footerBox3 {
+        justify-content: center;
+    }
+}
+
+@media (width < 560px) {
+    aside {
+        width: 15vw;
+    }
+    /* aside .sidebarContainer{
+        height: 40vh;
+    } */
+
+    main {
+        height: calc(100vh - 35vh - 2px);
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        height: 24vh;
+    }
+
+    footer>div {
+        padding: 4px;
+    }
+
+    footer .footerBox1 {
+        width: auto;
+    }
+
+    footer .footerBox1 .footerSongCover {
+        display: flex;
+    }
+
+    footer .footerBox2 {
+        width: 90%;
+    }
+
+    footer .footerBox2 .seekbar {
+        padding: 3px;
+    }
+
+    footer .footerBox3 {
+        flex-direction: row;
+        width: auto;
+    }
+
+    .footerBox3 .duration {
+        width: 100%;
+    }
+}
+
+@media (width < 480px) {
+    header nav {
+        justify-content: center;
+    }
+
+    aside {
+        width: 20vw;
+    }
+}
+
+@media (width < 450px) {
+    header nav {
+        justify-content: space-around;
+    }
+
+    header nav .navBox2 {
+        display: none;
+    }
+
+    header nav .navBox1 {
+        margin-left: -30px;
+    }
+
+    header nav .navBox1 span {
+        padding: 0 10px;
+        display: inline-block;
+    }
+
+    aside {
+        width: 30vw;
+    }
+
+    section {
+        width: auto;
+    }
+}
+
+@media (width < 345px) {
+    aside {
+        width: 50vw;
+    }
+
+    header nav .navBox1 {
+        margin-left: 0px;
+    }
+}
+
+@media (width < 300px) {
+    aside {
+        width: 60vw;
+    }
+}
+
+@media (width < 250px) {
+
+    /* header nav{
+        justify-content: center;
+        gap: 90px;
+    } */
+    header nav .navHamburger {
+        margin-right: -30px;
+    }
+
+    aside {
+        width: 80vw;
+    }
+}
