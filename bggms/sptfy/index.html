@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Web Player: Music for everyone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/utility.css">
+    <link rel="stylesheet" href="css/mediaQuery.css">
+</head>
+
+<body>
+    <!-- This is header of the body which contains logo nav etc. -->
+    <header>
+        <!-- This is navigation bar of this page. -->
+        <nav class="flexBox alignItemsCenter">
+            <!-- This is Spotify Logo -->
+            <div class="spotifyLogo invert_1  navBox1 flexBox justifyContentCenter alignItemsCenter">
+                <img class="cursorPointer" src="img/spotifyLogo.svg" alt="Logo">
+                <span class="invert_1">Spotify</span>
+            </div>
+            <!-- This is nav Box 2 containing searchBar icons etc -->
+            <div class="navBox2 flexBox alignItemsCenter justifyContentCenter">
+
+                <!-- This is Home Icon -->
+                <div class="homeIcon cursorPointer ">
+                    <img class="invert_1" src="img/homeIcon.svg" alt="Home">
+                </div>
+
+                <!-- This is Search Bar -->
+                <div class="searchBar flexBox alignItemsCenter justifyContentCenter">
+                    <!-- This is Search Icon -->
+                    <div class="searchIcon cursorPointer ">
+                        <img class="invert_07" src="img/searchIcon.svg" alt="Search">
+                    </div>
+                    <!-- THis is search area -->
+                    <input type="search" name="search" id="search" placeholder="What do you want to play?">
+                    <!-- This is browse Icon -->
+                    <div class="browseIcon cursorPointer">
+                        <img class="invert_07" src="img/browseIcon.svg" alt="Browse">
+                    </div>
+                </div>
+            </div>
+
+            <div class="navBox3">
+                <!-- This is blank box -->
+            </div>
+
+            <!-- This is navBox 4 containing right side icons -->
+            <div class="navBox4 flexBox justifyContentCenter alignItemsCenter">
+                <!-- This is Premium -->
+                <div class="premiumButton cursorPointer">Premium</div>
+                <!-- This is support -->
+                <div class="supportButton cursorPointer">Support</div>
+                <!-- This is Download -->
+                <div class="downloadButton cursorPointer">Download</div>
+                <!-- This is white line which seperates -->
+                <div class="seperator">|</div>
+                <!-- This is Install App Button having icon and text -->
+                <div class="installAppButton flexBox justifyContentCenter  alignItemsCenter cursorPointer ">
+                    <img class="invert_07" src="img/install_icon.svg" alt="Install">
+                    <span>Install App</span>
+                </div>
+                <!-- This is sign Up -->
+                <div class="signUpButton cursorPointer">Sign up</div>
+                <!-- This is Login -->
+                <div class="loginButton cursorPointer">
+                    Log in
+                </div>
+            </div>
+
+            <div class="navHamburger cursorPointer">
+                <img class="invert_1" src="/img/Hamburger.svg" alt="Hamburger">
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- This is main of the body which contain page elements like section and aside. -->
+    <main>
+        <!-- This is left sidebar where songs of a playlist are shown-->
+        <aside>
+            <div class="asideHamburger">
+                <img class="invert_1" src="/img/Hamburger.svg" alt="Hamburger">
+            </div>
+            <div class="sidebarHeading flexBox alignItemsCenter">
+                <h3>Your Library</h3>
+                <div class="crossIcon flexBox justifyContentCenter alignItemsCenter cursorPointer">
+                    <img class="invert_07" width="24px" src="img/cross.svg" alt="+">
+                </div>
+            </div>
+            <div class="sidebarContainer flexBox">
+                <!-- This is the sidebar Container where music are added dynamically using js Frontend only. See the script.js File -->
+            </div>
+
+            <div class="sidebarFooter flexBox justifyContentCenter">
+                <ul>
+                    <li>Legal</li>
+                    <li>Safety & Privacy Center</li>
+                    <li>Privacy Policy</li>
+                    <li>Cookies</li>
+                    <li>About Ads</li>
+                    <li>Accessibility</li>
+                </ul>
+                <div class="language flexBox justifyContentCenter alignItemsCenter">
+                    <img class="invert_1" width="18px" src="/img/globeIcon.svg" alt="Globe">
+                    <span>English</span>
+                </div>
+            </div>
+        </aside>
+        <div class="whiteVerticalLine"></div>
+
+
+
+        <!-- This is main section where playlists cards are shown -->
+        <section>
+            <h2>Popular Albums</h2>
+            <div class="spotifyPlaylists flexBox">
+                 <!-- This is the main Container where music Albums/Playlists are added dynamically using js Frontend only. See the script.js File -->
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Generally footer is used to display secondary navigation list but I used it for music playbar. -->
+    <footer class="flexBox justifyContentCenter">
+        <div class="footerBox1 flexBox alignItemsCenter">
+            <div class="footerSongCover cursorPointer">
+                <img src="Playlists/Ed Sheeran Mix/Ed Sheeran - Sapphire (Official Music Video).jpg" alt="">
+            </div>
+            <div class="footerSongDetails cursorPointer">
+                <div class="footerSongTitle">Sapphire (Official Music Video)</div>
+                <div class="footerSongArtist">Ed Sheeran</div>
+            </div>
+        </div>
+
+        <div class="footerBox2 flexBox">
+            <div class="playbarControl flexBox justifyContentCenter alignItemsCenter">
+                <img class="invert_1 cursorPointer" id="previous" src="/img/previous.svg" alt="Previous">
+                <img class="invert_1 cursorPointer" id="play" src="/img/play.svg" alt="Play">
+                <img class="invert_1 cursorPointer" id="next" src="/img/next.svg" alt="Next">
+            </div>
+            <div class="seekbar">
+                <div class="seekbarLine cursorPointer">
+                    <div class="seekbarCircle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footerBox3 flexBox alignItemsCenter ">
+            <div class="volume flexBox alignItemsCenter justifyContentCenter">
+                <img  class="invert_1 cursorPointer" src="/img/volume-low.svg" alt="High volume">
+                <input class="cursorPointer" type="range" name="volume" id="volume" value="50">
+            </div>
+            <div class="duration">00:00/00:00</div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
