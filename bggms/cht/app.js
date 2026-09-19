@@ -63,7 +63,7 @@ const $ = (id) => document.getElementById(id);
 const el = {
   loadingScreen: $("loading-screen"), authScreen: $("auth-screen"), blockedScreen: $("blocked-screen"), mainApp: $("main-app"),
   tabLogin: $("tab-login"), tabSignup: $("tab-signup"), authForm: $("auth-form"), authUsername: $("auth-username"), authPassword: $("auth-password"), authError: $("auth-error"), authSubmit: $("auth-submit"), authSubmitLabel: $("auth-submit-label"), authSubmitSpinner: $("auth-submit-spinner"),
-  blockedLogoutBtn: $("blocked-logout-btn"), broadcastBanner: $("broadcast-banner"), broadcastText: $("broadcast-text"),
+  broadcastBanner: $("broadcast-banner"), broadcastText: $("broadcast-text"),
   sidebar: $("sidebar"), sidebarToggle: $("sidebar-toggle"), mobileSidebarBtn: $("mobile-sidebar-btn"), connectionStatus: $("connection-status"), statusDot: $("status-dot"), statusLabel: $("status-label"), channelList: $("channel-list"), dmsList: $("dms-list"), dmsSidebarTitle: $("dms-sidebar-title"),
   userPanelAvatarBtn: $("user-panel-avatar-btn"), userPanelAvatar: $("user-panel-avatar"), userPanelName: $("user-panel-name"), userPanelRole: $("user-panel-role"), profileBtn: $("profile-btn"), logoutBtn: $("logout-btn"),
   channelNameDisplay: $("channel-name-display"), staffControls: $("staff-controls"), messagesScroll: $("messages-scroll"), messagesList: $("messages-list"), emptyChannelState: $("empty-channel-state"), newMessagesBtn: $("new-messages-btn"),
@@ -1225,11 +1225,6 @@ el.authForm.addEventListener("submit", async (e) => {
 });
 
 el.logoutBtn.addEventListener("click", logout);
-el.blockedLogoutBtn.addEventListener("click", () => {
-  teardownAllListeners(); clearSession();
-  state.currentUser = null; state.currentUid = null;
-  showAuthScreen();
-});
 
 onValue(ref(db, ".info/connected"), (snap) => {
   const connected = snap.val() === true;
