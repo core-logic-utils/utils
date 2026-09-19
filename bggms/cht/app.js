@@ -775,17 +775,260 @@ function confirmDeleteMessage(msgId) {
 
 el.fileUploadBtn.addEventListener("click", () => el.fileInput.click());
 el.fileInput.addEventListener("change", async () => {
-  const file = el.fileInput.files[0]; el.fileInput.value = ""; if (!file) return;
-  if (file.size > MAX_FILE_BYTES) return showToast(`File too large. Max size is ${formatBytes(MAX_FILE_BYTES)}.`, "error");
+  const file = el.fileInput.files[0];
+  el.fileInput.value = "";
+  if (!file) return;
+
+  // If already under limit → just load it
+  if (file.size <= MAX_FILE_BYTES) {
+    try {
+      const base64 = await fileToBase64(file);
+      state.pendingFile = { name: file.name, type: file.type, size: file.size, base64 };
+      renderFilePreview();
+    } catch (e) {
+      showToast("Could not read that file.", "error");
+    }
+    return;
+  }
+
+  // Over 4.5 MB → ask user if they want compression attempt
+  const wantsCompress = confirm(
+    `This file is ${formatBytes(file.size)} (limit is ${formatBytes(MAX_FILE_BYTES)}).\n\nAttempt to compress it so it can be sent?`
+  );
+
+  if (!wantsCompress) {
+    showToast("Upload cancelled.", "info");
+    return;
+  }
+
+  showToast("Compressing… please wait.", "info");
+
   try {
-    const base64 = await fileToBase64(file);
-    if (base64.length * 0.75 > MAX_FILE_BYTES * 1.4) return showToast("File is too large.", "error");
-    state.pendingFile = { name: file.name, type: file.type, size: file.size, base64 };
+    let result = null;
+
+    if (file.type.startsWith("image/")) {
+      result = await compressImageFile(file, MAX_FILE_BYTES);
+    } else if (file.type.startsWith("video/")) {
+      // Best-effort for video (browser limitations – may not always succeed)
+      result = await compressVideoFile(file, MAX_FILE_BYTES);
+    } else {
+      showToast("Compression is only supported for images and videos right now.", "error");
+      return;
+    }
+
+    if (!result) {
+      showToast("Could not compress the file enough to fit under 4.5 MB.", "error");
+      return;
+    }
+
+    state.pendingFile = {
+      name: result.name,
+      type: result.type,
+      size: result.size,
+      base64: result.base64
+    };
     renderFilePreview();
-  } catch (e) { showToast("Could not read that file.", "error"); }
+    showToast(`Compressed successfully (${formatBytes(result.size)}). Ready to send.`, "success");
+  } catch (err) {
+    console.error(err);
+    showToast("Compression failed. File was not added.", "error");
+  }
 });
-function fileToBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => { const res = reader.result; resolve(res.slice(res.indexOf(",") + 1)); }; reader.onerror = reject; reader.readAsDataURL(file); }); }
-function renderFilePreview() { if (!state.pendingFile) { el.filePreview.classList.add("hidden"); return clearChildren(el.filePreview); } clearChildren(el.filePreview); el.filePreview.classList.remove("hidden"); el.filePreview.appendChild(makeEl("span", { text: `${state.pendingFile.name} (${formatBytes(state.pendingFile.size)})` })); el.filePreview.appendChild(makeEl("button", { className: "icon-btn", text: "Remove", onClick: clearPendingFile })); }
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const res = reader.result;
+      resolve(res.slice(res.indexOf(",") + 1));
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function compressImageFile(file, maxBytes) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+
+      // Start with a reasonable max dimension and quality, then iteratively reduce
+      let maxDim = 1600;
+      let quality = 0.82;
+      let attempts = 0;
+
+      const tryCompress = () => {
+        attempts++;
+        let w = img.width;
+        let h = img.height;
+
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round(h * maxDim / w);
+            w = maxDim;
+          } else {
+            w = Math.round(w * maxDim / h);
+            h = maxDim;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(null);
+              return;
+            }
+
+            if (blob.size <= maxBytes || attempts >= 8) {
+              // Convert final blob to base64
+              const reader = new FileReader();
+              reader.onload = () => {
+                const dataUrl = reader.result;
+                const base64 = dataUrl.slice(dataUrl.indexOf(",") + 1);
+                resolve({
+                  name: file.name.replace(/\.[^.]+$/, "") + "_compressed.jpg",
+                  type: "image/jpeg",
+                  size: blob.size,
+                  base64
+                });
+              };
+              reader.readAsDataURL(blob);
+              return;
+            }
+
+            // Still too big → reduce further
+            maxDim = Math.floor(maxDim * 0.82);
+            quality = Math.max(0.45, quality - 0.08);
+            tryCompress();
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+
+      tryCompress();
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve(null);
+    };
+    img.src = url;
+  });
+}
+
+async function compressVideoFile(file, maxBytes) {
+  // Browser-native video compression is limited.
+  // This is a best-effort: we try to re-encode at lower quality/resolution
+  // using MediaRecorder if the browser supports it. Many videos will still
+  // fail to go under 4.5 MB — that is expected.
+  return new Promise(async (resolve) => {
+    try {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement("video");
+      video.src = url;
+      video.muted = true;
+      video.playsInline = true;
+
+      await new Promise((r) => {
+        video.onloadedmetadata = r;
+        video.onerror = () => r();
+      });
+
+      // Cap resolution
+      const maxW = 1280;
+      const scale = Math.min(1, maxW / (video.videoWidth || maxW));
+      const targetW = Math.floor((video.videoWidth || 640) * scale);
+      const targetH = Math.floor((video.videoHeight || 360) * scale);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext("2d");
+
+      const stream = canvas.captureStream(24); // 24 fps
+      const recorder = new MediaRecorder(stream, {
+        mimeType: MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
+          ? "video/webm;codecs=vp9"
+          : "video/webm",
+        videoBitsPerSecond: 1_200_000 // ~1.2 Mbps
+      });
+
+      const chunks = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data);
+      };
+
+      const finished = new Promise((res) => {
+        recorder.onstop = () => res();
+      });
+
+      recorder.start(100);
+
+      // Draw frames
+      const duration = Math.min(video.duration || 30, 60); // safety cap
+      let currentTime = 0;
+      const step = 1 / 24;
+
+      const draw = () => {
+        if (currentTime >= duration) {
+          recorder.stop();
+          return;
+        }
+        video.currentTime = currentTime;
+        video.onseeked = () => {
+          ctx.drawImage(video, 0, 0, targetW, targetH);
+          currentTime += step;
+          requestAnimationFrame(draw);
+        };
+      };
+      draw();
+
+      await finished;
+      URL.revokeObjectURL(url);
+
+      const blob = new Blob(chunks, { type: "video/webm" });
+      if (blob.size > maxBytes) {
+        resolve(null);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        const base64 = dataUrl.slice(dataUrl.indexOf(",") + 1);
+        resolve({
+          name: file.name.replace(/\.[^.]+$/, "") + "_compressed.webm",
+          type: "video/webm",
+          size: blob.size,
+          base64
+        });
+      };
+      reader.readAsDataURL(blob);
+    } catch (e) {
+      console.warn("Video compression failed", e);
+      resolve(null);
+    }
+  });
+}
+
+function renderFilePreview() {
+  if (!state.pendingFile) {
+    el.filePreview.classList.add("hidden");
+    return clearChildren(el.filePreview);
+  }
+  clearChildren(el.filePreview);
+  el.filePreview.classList.remove("hidden");
+  el.filePreview.appendChild(makeEl("span", { text: `${state.pendingFile.name} (${formatBytes(state.pendingFile.size)})` }));
+  el.filePreview.appendChild(makeEl("button", { className: "icon-btn", text: "Remove", onClick: clearPendingFile }));
+}
 function clearPendingFile() { state.pendingFile = null; renderFilePreview(); }
 
 function renderUserPanel() {
