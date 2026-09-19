@@ -42,6 +42,7 @@ const state = {
   currentUid: null,
   currentChannel: "general",
   messageListeners: {},
+  typingListeners: {},          // ← NEW
   userListeners: [],
   usersCache: {},
   allUsersLoaded: false,
@@ -255,6 +256,8 @@ function logout() { teardownAllListeners(); clearSession(); state.currentUser = 
 function teardownAllListeners() {
   for (const unsub of Object.values(state.messageListeners)) try { unsub(); } catch (e) {}
   state.messageListeners = {};
+  for (const unsub of Object.values(state.typingListeners)) try { unsub(); } catch (e) {}
+  state.typingListeners = {};
   for (const unsub of state.userListeners) try { unsub(); } catch (e) {}
   state.userListeners = [];
   for (const unsub of Object.values(state.dmUnreadListeners)) try { unsub(); } catch (e) {}
@@ -293,7 +296,6 @@ function watchDMsList() {
   const handler = async (snap) => {
     const dms = snap.val() || {};
     const currentDmIds = new Set(Object.keys(dms));
-    // Clean up listeners for DMs no longer present
     for (const oldId of Object.keys(state.dmUnreadListeners)) {
       if (!currentDmIds.has(oldId)) {
         try { state.dmUnreadListeners[oldId](); } catch (e) {}
@@ -372,8 +374,14 @@ function updateUnreadHighlights() {
 }
 
 function switchChannel(channel) {
+  // Clean previous message listener
   const prev = state.messageListeners[state.currentChannel];
   if (prev) { try { prev(); } catch (e) {} delete state.messageListeners[state.currentChannel]; }
+
+  // Clean previous typing listener  ← THIS IS THE KEY FIX
+  const prevTyping = state.typingListeners[state.currentChannel];
+  if (prevTyping) { try { prevTyping(); } catch (e) {} delete state.typingListeners[state.currentChannel]; }
+
   state.currentChannel = channel;
   saveLastChannel(channel);
   state.replyTarget = null;
@@ -388,7 +396,6 @@ function switchChannel(channel) {
   el.dmBlockBtn.classList.add("hidden");
   el.dmLeaveBtn.classList.add("hidden");
 
-  // Clear unread highlight when opening a specific DM
   if (!CHANNELS.includes(channel) && channel !== "dms_home") {
     if (state.unreadDms.has(channel)) {
       state.unreadDms.delete(channel);
@@ -423,13 +430,13 @@ function switchChannel(channel) {
     el.messagesScroll.classList.remove("hidden");
     clearChildren(el.messagesList);
     attachMessageListener(`messages/${channel}`);
-    attachTypingListener(`messages/${channel}`);
+    attachTypingListener(channel);          // ← now passes pure channel id
   } else {
     el.channelNameDisplay.textContent = `#${channel}`;
     el.messageInput.placeholder = `Message #${channel}`;
     clearChildren(el.messagesList);
     attachMessageListener(`messages/${channel}`);
-    attachTypingListener(`messages/${channel}`);
+    attachTypingListener(channel);          // ← now passes pure channel id
   }
 }
 
@@ -570,16 +577,27 @@ function attachMessageListener(path) {
   state.messageListeners[state.currentChannel] = () => off(channelRef, "value", handler);
 }
 
-function attachTypingListener(path) {
-  const typingRef = ref(db, `typing/${state.currentChannel}`);
+function attachTypingListener(channel) {
+  // Clean any leftover for this channel (safety)
+  if (state.typingListeners[channel]) {
+    try { state.typingListeners[channel](); } catch (e) {}
+    delete state.typingListeners[channel];
+  }
+
+  const typingRef = ref(db, `typing/${channel}`);
   const handler = (snap) => {
+    // CRITICAL: only update UI if we are still looking at this exact channel
+    if (state.currentChannel !== channel) return;
+
     const data = snap.val() || {};
     const now = Date.now();
     const typingUsers = Object.entries(data)
       .filter(([uid, ts]) => uid !== state.currentUid && now - ts < 3000)
       .map(([uid]) => state.usersCache[uid]?.username || "Someone");
-    if (typingUsers.length === 0) el.typingIndicator.classList.add("hidden");
-    else {
+
+    if (typingUsers.length === 0) {
+      el.typingIndicator.classList.add("hidden");
+    } else {
       el.typingIndicator.classList.remove("hidden");
       if (typingUsers.length > 3) el.typingIndicator.textContent = "Multiple people are typing...";
       else if (typingUsers.length === 1) el.typingIndicator.textContent = `${typingUsers[0]} is typing...`;
@@ -587,7 +605,7 @@ function attachTypingListener(path) {
     }
   };
   onValue(typingRef, handler);
-  state.userListeners.push(() => off(typingRef, "value", handler));
+  state.typingListeners[channel] = () => off(typingRef, "value", handler);
 }
 
 function handleTyping() {
@@ -779,7 +797,6 @@ el.fileInput.addEventListener("change", async () => {
   el.fileInput.value = "";
   if (!file) return;
 
-  // If already under limit → just load it
   if (file.size <= MAX_FILE_BYTES) {
     try {
       const base64 = await fileToBase64(file);
@@ -791,7 +808,6 @@ el.fileInput.addEventListener("change", async () => {
     return;
   }
 
-  // Over 4.5 MB → ask user if they want compression attempt
   const wantsCompress = confirm(
     `This file is ${formatBytes(file.size)} (limit is ${formatBytes(MAX_FILE_BYTES)}).\n\nAttempt to compress it so it can be sent?`
   );
@@ -809,7 +825,6 @@ el.fileInput.addEventListener("change", async () => {
     if (file.type.startsWith("image/")) {
       result = await compressImageFile(file, MAX_FILE_BYTES);
     } else if (file.type.startsWith("video/")) {
-      // Best-effort for video (browser limitations – may not always succeed)
       result = await compressVideoFile(file, MAX_FILE_BYTES);
     } else {
       showToast("Compression is only supported for images and videos right now.", "error");
@@ -854,7 +869,6 @@ async function compressImageFile(file, maxBytes) {
     img.onload = () => {
       URL.revokeObjectURL(url);
 
-      // Start with a reasonable max dimension and quality, then iteratively reduce
       let maxDim = 1600;
       let quality = 0.82;
       let attempts = 0;
@@ -888,7 +902,6 @@ async function compressImageFile(file, maxBytes) {
             }
 
             if (blob.size <= maxBytes || attempts >= 8) {
-              // Convert final blob to base64
               const reader = new FileReader();
               reader.onload = () => {
                 const dataUrl = reader.result;
@@ -904,7 +917,6 @@ async function compressImageFile(file, maxBytes) {
               return;
             }
 
-            // Still too big → reduce further
             maxDim = Math.floor(maxDim * 0.82);
             quality = Math.max(0.45, quality - 0.08);
             tryCompress();
@@ -925,10 +937,6 @@ async function compressImageFile(file, maxBytes) {
 }
 
 async function compressVideoFile(file, maxBytes) {
-  // Browser-native video compression is limited.
-  // This is a best-effort: we try to re-encode at lower quality/resolution
-  // using MediaRecorder if the browser supports it. Many videos will still
-  // fail to go under 4.5 MB — that is expected.
   return new Promise(async (resolve) => {
     try {
       const url = URL.createObjectURL(file);
@@ -942,7 +950,6 @@ async function compressVideoFile(file, maxBytes) {
         video.onerror = () => r();
       });
 
-      // Cap resolution
       const maxW = 1280;
       const scale = Math.min(1, maxW / (video.videoWidth || maxW));
       const targetW = Math.floor((video.videoWidth || 640) * scale);
@@ -953,12 +960,12 @@ async function compressVideoFile(file, maxBytes) {
       canvas.height = targetH;
       const ctx = canvas.getContext("2d");
 
-      const stream = canvas.captureStream(24); // 24 fps
+      const stream = canvas.captureStream(24);
       const recorder = new MediaRecorder(stream, {
         mimeType: MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
           ? "video/webm;codecs=vp9"
           : "video/webm",
-        videoBitsPerSecond: 1_200_000 // ~1.2 Mbps
+        videoBitsPerSecond: 1_200_000
       });
 
       const chunks = [];
@@ -972,8 +979,7 @@ async function compressVideoFile(file, maxBytes) {
 
       recorder.start(100);
 
-      // Draw frames
-      const duration = Math.min(video.duration || 30, 60); // safety cap
+      const duration = Math.min(video.duration || 30, 60);
       let currentTime = 0;
       const step = 1 / 24;
 
