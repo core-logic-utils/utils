@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- external -->
   <script type="text/javascript">
     window.cookieconsent_options = {
       message: "Unsurprisingly, this website uses cookies for ads and traffic analysis.",
@@ -34,43 +33,41 @@
       position: fixed;
       bottom: 12px;
       left: 12px;
-      z-index: 999999;
-      background: rgba(0,0,0,0.85);
+      z-index: 9999999;
+      background: rgba(0,0,0,0.88);
       color: #fff;
       font-family: "Merriweather", Georgia, serif;
       font-size: 14px;
-      padding: 6px 12px;
+      padding: 7px 14px;
       border: 2px solid #c0a060;
       border-radius: 6px;
       cursor: pointer;
       user-select: none;
-      box-shadow: 0 0 14px rgba(255,200,50,0.55);
-      transition: all 0.15s;
+      box-shadow: 0 0 16px rgba(255,200,50,0.6);
     }
     #ac-hint:hover {
-      background: rgba(60,40,10,0.95);
-      box-shadow: 0 0 20px rgba(255,220,80,0.85);
+      background: rgba(70,45,10,0.95);
+      box-shadow: 0 0 22px rgba(255,220,80,0.9);
     }
     #ac-menu {
       position: fixed;
       bottom: 60px;
       left: 12px;
-      width: 280px;
+      width: 290px;
       background: linear-gradient(180deg, #2a1f0f 0%, #1a1208 100%);
       border: 3px solid #c0a060;
       border-radius: 10px;
-      z-index: 999999;
+      z-index: 9999999;
       font-family: "Merriweather", Georgia, serif;
       color: #f0e0c0;
-      box-shadow: 0 0 28px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,200,50,0.08);
+      box-shadow: 0 0 30px rgba(0,0,0,0.9);
       display: none;
       user-select: none;
-      overflow: hidden;
     }
     #ac-menu.open { display: block; }
     #ac-menu-header {
       background: linear-gradient(90deg, #5a3a10, #8a6020);
-      padding: 8px 12px;
+      padding: 9px 13px;
       font-weight: bold;
       font-size: 15px;
       cursor: move;
@@ -81,18 +78,17 @@
     }
     #ac-menu-header .close-btn {
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1;
-      padding: 0 4px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     #ac-menu-header .close-btn:hover { opacity: 1; color: #ffcc66; }
-    #ac-menu-body { padding: 12px; }
-    .ac-row { margin-bottom: 11px; }
+    #ac-menu-body { padding: 13px; }
+    .ac-row { margin-bottom: 12px; }
     .ac-row label {
       display: block;
       font-size: 12px;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
       color: #e0c080;
     }
     .ac-speed-buttons {
@@ -104,17 +100,16 @@
       background: #3a2a10;
       border: 1px solid #a08040;
       color: #f0e0c0;
-      padding: 6px 4px;
+      padding: 7px 4px;
       font-size: 12px;
       cursor: pointer;
       border-radius: 4px;
-      transition: all 0.1s;
     }
     .ac-speed-btn:hover { background: #5a4018; }
     .ac-speed-btn.active {
       background: #8a6020;
       border-color: #ffcc66;
-      box-shadow: 0 0 9px rgba(255,200,50,0.6);
+      box-shadow: 0 0 10px rgba(255,200,50,0.65);
       font-weight: bold;
     }
     #ac-toggle-btn {
@@ -122,17 +117,17 @@
       background: #3a2a10;
       border: 2px solid #a08040;
       color: #f0e0c0;
-      padding: 10px;
-      font-size: 15px;
+      padding: 11px;
+      font-size: 16px;
       cursor: pointer;
       border-radius: 5px;
       font-weight: bold;
-      margin-top: 6px;
+      margin-top: 4px;
     }
     #ac-toggle-btn.on {
       background: #1a5a1a;
       border-color: #50d040;
-      box-shadow: 0 0 16px rgba(80,220,60,0.6);
+      box-shadow: 0 0 18px rgba(80,220,60,0.65);
     }
     #ac-toggle-btn.off {
       background: #5a1a1a;
@@ -142,29 +137,28 @@
       background: #1a1208;
       border: 1px solid #806030;
       color: #ffcc66;
-      padding: 5px 12px;
+      padding: 6px 14px;
       font-size: 15px;
       border-radius: 4px;
-      min-width: 44px;
+      min-width: 48px;
       text-align: center;
-      cursor: pointer;
       font-weight: bold;
+      cursor: pointer;
     }
     .ac-keybind.listening {
       background: #4a3010;
       border-color: #ffcc66;
-      animation: pulse 0.5s infinite;
+      animation: pulse 0.45s infinite;
     }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.5); }
-      50% { box-shadow: 0 0 0 8px rgba(255,200,50,0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.55); }
+      50% { box-shadow: 0 0 0 9px rgba(255,200,50,0); }
     }
     .ac-status {
       font-size: 12px;
       color: #a09070;
-      margin-top: 10px;
+      margin-top: 11px;
       text-align: center;
-      letter-spacing: 0.3px;
     }
     .ac-status.active {
       color: #70ff50;
@@ -174,7 +168,6 @@
 </head>
 <body>
   <div id="wrapper">
-    <!-- original Cookie Clicker content unchanged -->
     <div id="topBar">
       <div><b style="font-weight: bold;">Cookie Clicker</b>&trade; &copy; <a href="//orteil.dashnet.org" target="_blank" id="topbarOrteil">Orteil</a>, 2023 - <a href="//dashnet.org" target="_blank" id="topbarDashnet">DashNet</a></div>
       <div><a href="https://twitter.com/orteil42" target="_blank" id="topbarTwitter">twitter</a></div>
@@ -333,7 +326,7 @@
     </div>
   </div>
 
-  <!-- REAL HIGH-SPEED AUTOCLICKER -->
+  <!-- HIGH SPEED REAL AUTOCLICKER -->
   <div id="ac-hint">Press Z!</div>
 
   <div id="ac-menu">
@@ -345,12 +338,12 @@
       <div class="ac-row">
         <label>Click Speed</label>
         <div class="ac-speed-buttons">
-          <button class="ac-speed-btn" data-cps="20">20 CPS</button>
-          <button class="ac-speed-btn" data-cps="60">60 CPS</button>
-          <button class="ac-speed-btn" data-cps="120">120 CPS</button>
-          <button class="ac-speed-btn" data-cps="250">250 CPS</button>
-          <button class="ac-speed-btn" data-cps="500">500 CPS</button>
-          <button class="ac-speed-btn active" data-cps="0">MAX</button>
+          <button class="ac-speed-btn" data-mode="20">20 CPS</button>
+          <button class="ac-speed-btn" data-mode="60">60 CPS</button>
+          <button class="ac-speed-btn" data-mode="150">150 CPS</button>
+          <button class="ac-speed-btn" data-mode="400">400 CPS</button>
+          <button class="ac-speed-btn" data-mode="1000">1000 CPS</button>
+          <button class="ac-speed-btn active" data-mode="max">MAX</button>
         </div>
       </div>
 
@@ -358,30 +351,32 @@
         <label>Toggle Keybind</label>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="ac-keybind" id="ac-keybind-display">X</div>
-          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:5px 12px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
+          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:6px 12px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
         </div>
       </div>
 
       <button id="ac-toggle-btn" class="off">OFF</button>
 
-      <div class="ac-status" id="ac-status">Ready — clicks wherever your mouse is</div>
+      <div class="ac-status" id="ac-status">Ready — keep tab focused</div>
     </div>
   </div>
 
   <script>
   (function () {
     let autoClicking = false;
-    let currentCPS = 0;               // 0 = max
+    let mode = 'max';                 // 'max' or a number
     let toggleKey = 'x';
     let listeningForKey = false;
     let menuOpen = false;
-    let mouseX = 0;
-    let mouseY = 0;
-    let clickCount = 0;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let clicksThisSecond = 0;
     let lastSecond = performance.now();
-    let displayedCPS = 0;
+    let shownCPS = 0;
+    let intervalId = null;
+    let rafId = null;
 
-    // Track mouse constantly
+    // continuous mouse tracking
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -396,26 +391,26 @@
     const setKeyBtn = document.getElementById('ac-set-key');
     const speedBtns = document.querySelectorAll('.ac-speed-btn');
 
-    // Dragging
-    let isDragging = false, ox = 0, oy = 0;
+    // dragging
+    let dragging = false, ox = 0, oy = 0;
     const header = document.getElementById('ac-menu-header');
     header.addEventListener('mousedown', e => {
       if (e.target.classList.contains('close-btn')) return;
-      isDragging = true;
+      dragging = true;
       const r = menu.getBoundingClientRect();
       ox = e.clientX - r.left;
       oy = e.clientY - r.top;
       e.preventDefault();
     });
     document.addEventListener('mousemove', e => {
-      if (!isDragging) return;
+      if (!dragging) return;
       menu.style.left = (e.clientX - ox) + 'px';
-      menu.style.top  = (e.clientY - oy) + 'px';
+      menu.style.top = (e.clientY - oy) + 'px';
       menu.style.bottom = 'auto';
     });
-    document.addEventListener('mouseup', () => isDragging = false);
+    document.addEventListener('mouseup', () => dragging = false);
 
-    function openMenu()  { menu.classList.add('open');    menuOpen = true;  }
+    function openMenu() { menu.classList.add('open'); menuOpen = true; }
     function closeMenu() {
       menu.classList.remove('open');
       menuOpen = false;
@@ -427,98 +422,103 @@
     hint.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
     closeBtn.addEventListener('click', closeMenu);
 
-    // Speed selection
+    // speed buttons
     speedBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         speedBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        currentCPS = parseInt(btn.dataset.cps);
+        mode = btn.dataset.mode;
         if (autoClicking) {
-          stopClicking();
-          startClicking();
+          stop();
+          start();
         }
         updateStatus();
       });
     });
 
-    // ========== SUPER FAST CLICK ENGINE ==========
-    function fireClick() {
+    // ========== ACTUAL FAST ENGINE ==========
+    function doClick() {
       const el = document.elementFromPoint(mouseX, mouseY);
       if (el) {
-        // single .click() is much lighter and still triggers almost everything
         el.click();
-        clickCount++;
+        clicksThisSecond++;
       }
     }
 
-    // High-speed scheduler using MessageChannel (faster + less throttled than setTimeout)
-    const channel = new MessageChannel();
-    let maxRunning = false;
+    function maxLoop() {
+      if (!autoClicking || mode !== 'max') return;
 
-    channel.port1.onmessage = () => {
-      if (!autoClicking || currentCPS !== 0) return;
-      // Fire multiple clicks per tick for insane speed
-      fireClick();
-      fireClick();
-      fireClick();
-      fireClick();
-      channel.port2.postMessage(null);   // queue next immediately
-    };
+      // fire a burst every tick
+      doClick();
+      doClick();
+      doClick();
+      doClick();
+      doClick();
+      doClick();
+      doClick();
+      doClick();
 
-    function startClicking() {
+      // recursive setTimeout(0) is the most reliable high-speed method left
+      setTimeout(maxLoop, 0);
+    }
+
+    function start() {
       autoClicking = true;
       toggleBtn.textContent = 'ON';
       toggleBtn.classList.remove('off');
       toggleBtn.classList.add('on');
-      clickCount = 0;
+      clicksThisSecond = 0;
       lastSecond = performance.now();
 
-      if (currentCPS === 0) {
-        // MAX MODE – MessageChannel loop + 4 clicks per tick
-        maxRunning = true;
-        channel.port2.postMessage(null);
+      if (mode === 'max') {
+        maxLoop();
       } else {
-        // Fixed CPS
-        const delay = Math.max(1, Math.floor(1000 / currentCPS));
-        window._acInterval = setInterval(fireClick, delay);
+        const cps = parseInt(mode);
+        const delay = Math.max(1, Math.floor(1000 / cps));
+        intervalId = setInterval(doClick, delay);
       }
+
+      // CPS display updater
+      function tick() {
+        if (!autoClicking) return;
+        const now = performance.now();
+        if (now - lastSecond >= 1000) {
+          shownCPS = clicksThisSecond;
+          clicksThisSecond = 0;
+          lastSecond = now;
+          updateStatus();
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+      rafId = requestAnimationFrame(tick);
+
       updateStatus();
-      requestAnimationFrame(cpsCounter);
     }
 
-    function stopClicking() {
+    function stop() {
       autoClicking = false;
-      maxRunning = false;
       toggleBtn.textContent = 'OFF';
       toggleBtn.classList.remove('on');
       toggleBtn.classList.add('off');
-      if (window._acInterval) {
-        clearInterval(window._acInterval);
-        window._acInterval = null;
+
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
       }
       updateStatus();
     }
 
-    function toggleClicking() {
-      autoClicking ? stopClicking() : startClicking();
+    function toggle() {
+      autoClicking ? stop() : start();
     }
 
-    toggleBtn.addEventListener('click', toggleClicking);
+    toggleBtn.addEventListener('click', toggle);
 
-    // Live CPS counter
-    function cpsCounter() {
-      if (!autoClicking) return;
-      const now = performance.now();
-      if (now - lastSecond >= 1000) {
-        displayedCPS = clickCount;
-        clickCount = 0;
-        lastSecond = now;
-        updateStatus();
-      }
-      requestAnimationFrame(cpsCounter);
-    }
-
-    // Keybind
+    // keybind
     setKeyBtn.addEventListener('click', () => {
       listeningForKey = true;
       keyDisplay.classList.add('listening');
@@ -528,17 +528,17 @@
 
     function updateStatus() {
       if (autoClicking) {
-        statusEl.textContent = currentCPS === 0
-          ? `MAX MODE — ~${displayedCPS} CPS`
-          : `Clicking at ${currentCPS} CPS  (actual ~${displayedCPS})`;
+        statusEl.textContent = mode === 'max'
+          ? `MAX — ~${shownCPS} CPS (keep tab focused)`
+          : `${mode} CPS — actual ~${shownCPS}`;
         statusEl.classList.add('active');
       } else {
-        statusEl.textContent = 'Ready — clicks wherever your mouse is';
+        statusEl.textContent = 'Ready — keep tab focused';
         statusEl.classList.remove('active');
       }
     }
 
-    // Keyboard
+    // keyboard
     document.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       const key = e.key.toLowerCase();
@@ -551,7 +551,7 @@
 
       if (listeningForKey) {
         e.preventDefault();
-        if (['shift','control','alt','meta'].includes(key)) return;
+        if (['shift', 'control', 'alt', 'meta'].includes(key)) return;
         toggleKey = key;
         keyDisplay.textContent = key.toUpperCase();
         keyDisplay.classList.remove('listening');
@@ -562,7 +562,7 @@
 
       if (key === toggleKey) {
         e.preventDefault();
-        toggleClicking();
+        toggle();
       }
     });
 
