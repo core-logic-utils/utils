@@ -28,21 +28,14 @@
   <link href="style.css?v=5" rel="stylesheet" type="text/css" />
   <script src="main.js?v=5"></script>
   <script src="showads.js"></script>
-  <!--[if IE]>
-      <style type="text/css">
-        #ifIE9 { display: block; }
-      </style>
-    <![endif]-->
-  <!--[if lt IE9]><script src="excanvas.compiled.js"></script><![endif]-->
 
   <style>
-    /* AUTOCLICKER UI */
     #ac-hint {
       position: fixed;
       bottom: 12px;
       left: 12px;
       z-index: 999999;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       color: #fff;
       font-family: "Merriweather", Georgia, serif;
       font-size: 14px;
@@ -51,32 +44,30 @@
       border-radius: 6px;
       cursor: pointer;
       user-select: none;
-      box-shadow: 0 0 12px rgba(255,200,50,0.5);
+      box-shadow: 0 0 14px rgba(255,200,50,0.55);
       transition: all 0.15s;
     }
     #ac-hint:hover {
-      background: rgba(50,35,10,0.95);
-      box-shadow: 0 0 18px rgba(255,220,80,0.8);
+      background: rgba(60,40,10,0.95);
+      box-shadow: 0 0 20px rgba(255,220,80,0.85);
     }
     #ac-menu {
       position: fixed;
       bottom: 60px;
       left: 12px;
-      width: 270px;
+      width: 280px;
       background: linear-gradient(180deg, #2a1f0f 0%, #1a1208 100%);
       border: 3px solid #c0a060;
       border-radius: 10px;
       z-index: 999999;
       font-family: "Merriweather", Georgia, serif;
       color: #f0e0c0;
-      box-shadow: 0 0 25px rgba(0,0,0,0.85), inset 0 0 20px rgba(255,200,50,0.08);
+      box-shadow: 0 0 28px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,200,50,0.08);
       display: none;
       user-select: none;
       overflow: hidden;
     }
-    #ac-menu.open {
-      display: block;
-    }
+    #ac-menu.open { display: block; }
     #ac-menu-header {
       background: linear-gradient(90deg, #5a3a10, #8a6020);
       padding: 8px 12px;
@@ -95,16 +86,9 @@
       padding: 0 4px;
       opacity: 0.8;
     }
-    #ac-menu-header .close-btn:hover {
-      opacity: 1;
-      color: #ffcc66;
-    }
-    #ac-menu-body {
-      padding: 12px;
-    }
-    .ac-row {
-      margin-bottom: 11px;
-    }
+    #ac-menu-header .close-btn:hover { opacity: 1; color: #ffcc66; }
+    #ac-menu-body { padding: 12px; }
+    .ac-row { margin-bottom: 11px; }
     .ac-row label {
       display: block;
       font-size: 12px;
@@ -126,36 +110,29 @@
       border-radius: 4px;
       transition: all 0.1s;
     }
-    .ac-speed-btn:hover {
-      background: #5a4018;
-    }
+    .ac-speed-btn:hover { background: #5a4018; }
     .ac-speed-btn.active {
       background: #8a6020;
       border-color: #ffcc66;
-      box-shadow: 0 0 8px rgba(255,200,50,0.55);
+      box-shadow: 0 0 9px rgba(255,200,50,0.6);
       font-weight: bold;
     }
-    .ac-toggle-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 8px;
-    }
     #ac-toggle-btn {
-      flex: 1;
+      width: 100%;
       background: #3a2a10;
       border: 2px solid #a08040;
       color: #f0e0c0;
-      padding: 9px;
-      font-size: 14px;
+      padding: 10px;
+      font-size: 15px;
       cursor: pointer;
       border-radius: 5px;
       font-weight: bold;
+      margin-top: 6px;
     }
     #ac-toggle-btn.on {
-      background: #2a5a1a;
-      border-color: #60c040;
-      box-shadow: 0 0 14px rgba(80,200,60,0.55);
+      background: #1a5a1a;
+      border-color: #50d040;
+      box-shadow: 0 0 16px rgba(80,220,60,0.6);
     }
     #ac-toggle-btn.off {
       background: #5a1a1a;
@@ -165,10 +142,10 @@
       background: #1a1208;
       border: 1px solid #806030;
       color: #ffcc66;
-      padding: 5px 10px;
-      font-size: 14px;
+      padding: 5px 12px;
+      font-size: 15px;
       border-radius: 4px;
-      min-width: 42px;
+      min-width: 44px;
       text-align: center;
       cursor: pointer;
       font-weight: bold;
@@ -176,27 +153,28 @@
     .ac-keybind.listening {
       background: #4a3010;
       border-color: #ffcc66;
-      animation: pulse 0.55s infinite;
+      animation: pulse 0.5s infinite;
     }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.45); }
-      50% { box-shadow: 0 0 0 7px rgba(255,200,50,0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.5); }
+      50% { box-shadow: 0 0 0 8px rgba(255,200,50,0); }
     }
     .ac-status {
-      font-size: 11px;
+      font-size: 12px;
       color: #a09070;
-      margin-top: 9px;
+      margin-top: 10px;
       text-align: center;
       letter-spacing: 0.3px;
     }
     .ac-status.active {
-      color: #80ff60;
+      color: #70ff50;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
   <div id="wrapper">
+    <!-- original Cookie Clicker content unchanged -->
     <div id="topBar">
       <div><b style="font-weight: bold;">Cookie Clicker</b>&trade; &copy; <a href="//orteil.dashnet.org" target="_blank" id="topbarOrteil">Orteil</a>, 2023 - <a href="//dashnet.org" target="_blank" id="topbarDashnet">DashNet</a></div>
       <div><a href="https://twitter.com/orteil42" target="_blank" id="topbarTwitter">twitter</a></div>
@@ -355,7 +333,7 @@
     </div>
   </div>
 
-  <!-- ========== REAL AUTOCLICKER UI ========== -->
+  <!-- REAL HIGH-SPEED AUTOCLICKER -->
   <div id="ac-hint">Press Z!</div>
 
   <div id="ac-menu">
@@ -367,9 +345,9 @@
       <div class="ac-row">
         <label>Click Speed</label>
         <div class="ac-speed-buttons">
-          <button class="ac-speed-btn" data-cps="10">10 CPS</button>
-          <button class="ac-speed-btn" data-cps="50">50 CPS</button>
-          <button class="ac-speed-btn" data-cps="100">100 CPS</button>
+          <button class="ac-speed-btn" data-cps="20">20 CPS</button>
+          <button class="ac-speed-btn" data-cps="60">60 CPS</button>
+          <button class="ac-speed-btn" data-cps="120">120 CPS</button>
           <button class="ac-speed-btn" data-cps="250">250 CPS</button>
           <button class="ac-speed-btn" data-cps="500">500 CPS</button>
           <button class="ac-speed-btn active" data-cps="0">MAX</button>
@@ -380,31 +358,34 @@
         <label>Toggle Keybind</label>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="ac-keybind" id="ac-keybind-display">X</div>
-          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:5px 11px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
+          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:5px 12px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
         </div>
       </div>
 
-      <div class="ac-toggle-row">
-        <button id="ac-toggle-btn" class="off">OFF</button>
-      </div>
+      <button id="ac-toggle-btn" class="off">OFF</button>
 
-      <div class="ac-status" id="ac-status">Ready — moves with your mouse</div>
+      <div class="ac-status" id="ac-status">Ready — clicks wherever your mouse is</div>
     </div>
   </div>
 
   <script>
-  (function() {
-    // ========== REAL MOUSE-POSITION AUTOCLICKER ==========
+  (function () {
     let autoClicking = false;
-    let currentCPS = 0;          // 0 = absolute max speed
-    let clickInterval = null;
+    let currentCPS = 0;               // 0 = max
     let toggleKey = 'x';
     let listeningForKey = false;
     let menuOpen = false;
-
-    // Live mouse coordinates
     let mouseX = 0;
     let mouseY = 0;
+    let clickCount = 0;
+    let lastSecond = performance.now();
+    let displayedCPS = 0;
+
+    // Track mouse constantly
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
 
     const hint = document.getElementById('ac-hint');
     const menu = document.getElementById('ac-menu');
@@ -415,43 +396,26 @@
     const setKeyBtn = document.getElementById('ac-set-key');
     const speedBtns = document.querySelectorAll('.ac-speed-btn');
 
-    // Track mouse position constantly
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    // --- Dragging the menu ---
-    let isDragging = false;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
-
+    // Dragging
+    let isDragging = false, ox = 0, oy = 0;
     const header = document.getElementById('ac-menu-header');
-    header.addEventListener('mousedown', (e) => {
+    header.addEventListener('mousedown', e => {
       if (e.target.classList.contains('close-btn')) return;
       isDragging = true;
-      const rect = menu.getBoundingClientRect();
-      dragOffsetX = e.clientX - rect.left;
-      dragOffsetY = e.clientY - rect.top;
+      const r = menu.getBoundingClientRect();
+      ox = e.clientX - r.left;
+      oy = e.clientY - r.top;
       e.preventDefault();
     });
-
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener('mousemove', e => {
       if (!isDragging) return;
-      menu.style.left = (e.clientX - dragOffsetX) + 'px';
-      menu.style.top = (e.clientY - dragOffsetY) + 'px';
+      menu.style.left = (e.clientX - ox) + 'px';
+      menu.style.top  = (e.clientY - oy) + 'px';
       menu.style.bottom = 'auto';
     });
+    document.addEventListener('mouseup', () => isDragging = false);
 
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    // --- Open / Close ---
-    function openMenu() {
-      menu.classList.add('open');
-      menuOpen = true;
-    }
+    function openMenu()  { menu.classList.add('open');    menuOpen = true;  }
     function closeMenu() {
       menu.classList.remove('open');
       menuOpen = false;
@@ -460,13 +424,10 @@
       setKeyBtn.textContent = 'Set Key';
     }
 
-    hint.addEventListener('click', () => {
-      if (menuOpen) closeMenu();
-      else openMenu();
-    });
+    hint.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
     closeBtn.addEventListener('click', closeMenu);
 
-    // --- Speed buttons ---
+    // Speed selection
     speedBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         speedBtns.forEach(b => b.classList.remove('active'));
@@ -480,68 +441,84 @@
       });
     });
 
-    // ========== THE REAL CLICK ENGINE ==========
+    // ========== SUPER FAST CLICK ENGINE ==========
     function fireClick() {
-      // Create a real mouse click at the current cursor position
       const el = document.elementFromPoint(mouseX, mouseY);
-      if (!el) return;
-
-      // Full proper mouse events so everything reacts correctly
-      const opts = {
-        view: window,
-        bubbles: true,
-        cancelable: true,
-        clientX: mouseX,
-        clientY: mouseY,
-        button: 0
-      };
-
-      el.dispatchEvent(new MouseEvent('mousedown', opts));
-      el.dispatchEvent(new MouseEvent('mouseup', opts));
-      el.dispatchEvent(new MouseEvent('click', opts));
+      if (el) {
+        // single .click() is much lighter and still triggers almost everything
+        el.click();
+        clickCount++;
+      }
     }
+
+    // High-speed scheduler using MessageChannel (faster + less throttled than setTimeout)
+    const channel = new MessageChannel();
+    let maxRunning = false;
+
+    channel.port1.onmessage = () => {
+      if (!autoClicking || currentCPS !== 0) return;
+      // Fire multiple clicks per tick for insane speed
+      fireClick();
+      fireClick();
+      fireClick();
+      fireClick();
+      channel.port2.postMessage(null);   // queue next immediately
+    };
 
     function startClicking() {
       autoClicking = true;
       toggleBtn.textContent = 'ON';
       toggleBtn.classList.remove('off');
       toggleBtn.classList.add('on');
+      clickCount = 0;
+      lastSecond = performance.now();
 
       if (currentCPS === 0) {
-        // MAXIMUM POSSIBLE SPEED
-        const maxLoop = () => {
-          if (!autoClicking) return;
-          fireClick();
-          setTimeout(maxLoop, 0);          // as fast as the browser allows
-        };
-        maxLoop();
+        // MAX MODE – MessageChannel loop + 4 clicks per tick
+        maxRunning = true;
+        channel.port2.postMessage(null);
       } else {
+        // Fixed CPS
         const delay = Math.max(1, Math.floor(1000 / currentCPS));
-        clickInterval = setInterval(fireClick, delay);
+        window._acInterval = setInterval(fireClick, delay);
       }
       updateStatus();
+      requestAnimationFrame(cpsCounter);
     }
 
     function stopClicking() {
       autoClicking = false;
+      maxRunning = false;
       toggleBtn.textContent = 'OFF';
       toggleBtn.classList.remove('on');
       toggleBtn.classList.add('off');
-      if (clickInterval) {
-        clearInterval(clickInterval);
-        clickInterval = null;
+      if (window._acInterval) {
+        clearInterval(window._acInterval);
+        window._acInterval = null;
       }
       updateStatus();
     }
 
     function toggleClicking() {
-      if (autoClicking) stopClicking();
-      else startClicking();
+      autoClicking ? stopClicking() : startClicking();
     }
 
     toggleBtn.addEventListener('click', toggleClicking);
 
-    // --- Keybind system ---
+    // Live CPS counter
+    function cpsCounter() {
+      if (!autoClicking) return;
+      const now = performance.now();
+      if (now - lastSecond >= 1000) {
+        displayedCPS = clickCount;
+        clickCount = 0;
+        lastSecond = now;
+        updateStatus();
+      }
+      requestAnimationFrame(cpsCounter);
+    }
+
+    // Keybind
     setKeyBtn.addEventListener('click', () => {
       listeningForKey = true;
       keyDisplay.classList.add('listening');
@@ -552,34 +529,29 @@
     function updateStatus() {
       if (autoClicking) {
         statusEl.textContent = currentCPS === 0
-          ? 'SPAMMING AT MAX SPEED'
-          : `CLICKING AT ${currentCPS} CPS`;
+          ? `MAX MODE — ~${displayedCPS} CPS`
+          : `Clicking at ${currentCPS} CPS  (actual ~${displayedCPS})`;
         statusEl.classList.add('active');
       } else {
-        statusEl.textContent = 'Ready — moves with your mouse';
+        statusEl.textContent = 'Ready — clicks wherever your mouse is';
         statusEl.classList.remove('active');
       }
     }
 
-    // Global keyboard handler
-    document.addEventListener('keydown', (e) => {
+    // Keyboard
+    document.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
       const key = e.key.toLowerCase();
 
-      // Z opens/closes the menu
       if (key === 'z' && !listeningForKey) {
         e.preventDefault();
-        if (menuOpen) closeMenu();
-        else openMenu();
+        menuOpen ? closeMenu() : openMenu();
         return;
       }
 
-      // Setting a new toggle key
       if (listeningForKey) {
         e.preventDefault();
-        if (['shift', 'control', 'alt', 'meta'].includes(key)) return;
-
+        if (['shift','control','alt','meta'].includes(key)) return;
         toggleKey = key;
         keyDisplay.textContent = key.toUpperCase();
         keyDisplay.classList.remove('listening');
@@ -588,7 +560,6 @@
         return;
       }
 
-      // Toggle the autoclicker
       if (key === toggleKey) {
         e.preventDefault();
         toggleClicking();
