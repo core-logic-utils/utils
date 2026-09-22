@@ -14,14 +14,8 @@
     };
   </script>
   <script type="text/javascript" src="cookieconsent.min.js"></script>
-  <!--<link href="https://fonts.googleapis.com/css?family=Kavoon&subset=latin,latin-ext" rel="stylesheet" type="text/css">-->
-  <link href="https://fonts.googleapis.com/css?family=Merriweather:900&subset=latin,latin-ext" rel="stylesheet"
-    type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:900&subset=latin,latin-ext" rel="stylesheet" type="text/css" />
   <title>Cookie Clicker</title>
-  <!--
-      Code and graphics copyright Orteil, 2013-2022
-      Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
-    -->
   <meta name="viewport" content="width=900, initial-scale=1" />
   <link rel="shortcut icon" href="img/favicon.ico" />
   <script src="base64.js"></script>
@@ -33,14 +27,10 @@
   </script>
   <link href="style.css?v=5" rel="stylesheet" type="text/css" />
   <script src="main.js?v=5"></script>
-  <!-- ad -->
   <script src="showads.js"></script>
-  <!-- /ad -->
   <!--[if IE]>
       <style type="text/css">
-        #ifIE9 {
-          display: block;
-        }
+        #ifIE9 { display: block; }
       </style>
     <![endif]-->
   <!--[if lt IE9]><script src="excanvas.compiled.js"></script><![endif]-->
@@ -52,7 +42,7 @@
       bottom: 12px;
       left: 12px;
       z-index: 999999;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.8);
       color: #fff;
       font-family: "Merriweather", Georgia, serif;
       font-size: 14px;
@@ -61,25 +51,25 @@
       border-radius: 6px;
       cursor: pointer;
       user-select: none;
-      box-shadow: 0 0 10px rgba(255,200,50,0.4);
+      box-shadow: 0 0 12px rgba(255,200,50,0.5);
       transition: all 0.15s;
     }
     #ac-hint:hover {
-      background: rgba(40,30,10,0.9);
-      box-shadow: 0 0 16px rgba(255,220,80,0.7);
+      background: rgba(50,35,10,0.95);
+      box-shadow: 0 0 18px rgba(255,220,80,0.8);
     }
     #ac-menu {
       position: fixed;
       bottom: 60px;
       left: 12px;
-      width: 260px;
+      width: 270px;
       background: linear-gradient(180deg, #2a1f0f 0%, #1a1208 100%);
       border: 3px solid #c0a060;
       border-radius: 10px;
       z-index: 999999;
       font-family: "Merriweather", Georgia, serif;
       color: #f0e0c0;
-      box-shadow: 0 0 25px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,200,50,0.1);
+      box-shadow: 0 0 25px rgba(0,0,0,0.85), inset 0 0 20px rgba(255,200,50,0.08);
       display: none;
       user-select: none;
       overflow: hidden;
@@ -113,7 +103,7 @@
       padding: 12px;
     }
     .ac-row {
-      margin-bottom: 10px;
+      margin-bottom: 11px;
     }
     .ac-row label {
       display: block;
@@ -142,7 +132,7 @@
     .ac-speed-btn.active {
       background: #8a6020;
       border-color: #ffcc66;
-      box-shadow: 0 0 8px rgba(255,200,50,0.5);
+      box-shadow: 0 0 8px rgba(255,200,50,0.55);
       font-weight: bold;
     }
     .ac-toggle-row {
@@ -156,8 +146,8 @@
       background: #3a2a10;
       border: 2px solid #a08040;
       color: #f0e0c0;
-      padding: 8px;
-      font-size: 13px;
+      padding: 9px;
+      font-size: 14px;
       cursor: pointer;
       border-radius: 5px;
       font-weight: bold;
@@ -165,7 +155,7 @@
     #ac-toggle-btn.on {
       background: #2a5a1a;
       border-color: #60c040;
-      box-shadow: 0 0 12px rgba(80,200,60,0.5);
+      box-shadow: 0 0 14px rgba(80,200,60,0.55);
     }
     #ac-toggle-btn.off {
       background: #5a1a1a;
@@ -175,87 +165,67 @@
       background: #1a1208;
       border: 1px solid #806030;
       color: #ffcc66;
-      padding: 4px 8px;
-      font-size: 13px;
+      padding: 5px 10px;
+      font-size: 14px;
       border-radius: 4px;
-      min-width: 40px;
+      min-width: 42px;
       text-align: center;
       cursor: pointer;
+      font-weight: bold;
     }
     .ac-keybind.listening {
       background: #4a3010;
       border-color: #ffcc66;
-      animation: pulse 0.6s infinite;
+      animation: pulse 0.55s infinite;
     }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.4); }
-      50% { box-shadow: 0 0 0 6px rgba(255,200,50,0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.45); }
+      50% { box-shadow: 0 0 0 7px rgba(255,200,50,0); }
     }
     .ac-status {
       font-size: 11px;
       color: #a09070;
-      margin-top: 8px;
+      margin-top: 9px;
       text-align: center;
+      letter-spacing: 0.3px;
     }
     .ac-status.active {
       color: #80ff60;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div id="topBar">
-      <div><b style="font-weight: bold;">Cookie Clicker</b>&trade; &copy; <a href="//orteil.dashnet.org" target="_blank"
-          id="topbarOrteil">Orteil</a>, 2023 - <a href="//dashnet.org" target="_blank" id="topbarDashnet">DashNet</a>
-      </div>
+      <div><b style="font-weight: bold;">Cookie Clicker</b>&trade; &copy; <a href="//orteil.dashnet.org" target="_blank" id="topbarOrteil">Orteil</a>, 2023 - <a href="//dashnet.org" target="_blank" id="topbarDashnet">DashNet</a></div>
       <div><a href="https://twitter.com/orteil42" target="_blank" id="topbarTwitter">twitter</a></div>
       <div><a href="https://orteil42.tumblr.com" target="_blank" id="topbarTumblr">tumblr</a></div>
       <div style="position: relative;">
-        <div
-          style="width: 22px; height: 32px; background: url(img/discord.png); position: absolute; left: 0px; top: 0px; pointer-events: none;">
-        </div>
-        <a href="https://discordapp.com/invite/cookie" target="_blank" style="padding-left: 16px;"
-          id="topbarDiscord">Discord</a>
+        <div style="width: 22px; height: 32px; background: url(img/discord.png); position: absolute; left: 0px; top: 0px; pointer-events: none;"></div>
+        <a href="https://discordapp.com/invite/cookie" target="_blank" style="padding-left: 16px;" id="topbarDiscord">Discord</a>
       </div>
       <div style="position: relative;">
-        <div
-          style="width: 25px; height: 32px; background: url(img/weeHoodie.png); position: absolute; left: -2px; top: 0px; pointer-events: none;">
-        </div>
-        <a class="blueLink" href="http://www.redbubble.com/people/dashnet" target="_blank" style="padding-left: 12px;"
-          id="topbarMerch">Merch!</a>
+        <div style="width: 25px; height: 32px; background: url(img/weeHoodie.png); position: absolute; left: -2px; top: 0px; pointer-events: none;"></div>
+        <a class="blueLink" href="http://www.redbubble.com/people/dashnet" target="_blank" style="padding-left: 12px;" id="topbarMerch">Merch!</a>
       </div>
       <div style="position: relative;">
-        <div
-          style="width: 22px; height: 32px; background: url(img/patreon.png); position: absolute; left: 0px; top: 0px; pointer-events: none;">
-        </div>
-        <a class="orangeLink" href="https://www.patreon.com/dashnet" target="_blank" style="padding-left: 16px;"
-          id="topbarPatreon">Patreon</a>
+        <div style="width: 22px; height: 32px; background: url(img/patreon.png); position: absolute; left: 0px; top: 0px; pointer-events: none;"></div>
+        <a class="orangeLink" href="https://www.patreon.com/dashnet" target="_blank" style="padding-left: 16px;" id="topbarPatreon">Patreon</a>
       </div>
       <div style="position: relative; display: none; font-weight: bold;" id="heralds">
-        <div
-          style="position: absolute; top: -4px; width: 31px; height: 39px; background: url(img/heraldFlag.png); left: 50%; margin-left: -15px; pointer-events: none;">
-        </div>
-        <div id="heraldsAmount"
-          style="position: relative; z-index: 10; text-shadow: 0px 1px 0px #000, 0px 0px 6px #ff00e4; color: #fff;">-
-        </div>
+        <div style="position: absolute; top: -4px; width: 31px; height: 39px; background: url(img/heraldFlag.png); left: 50%; margin-left: -15px; pointer-events: none;"></div>
+        <div id="heraldsAmount" style="position: relative; z-index: 10; text-shadow: 0px 1px 0px #000, 0px 0px 6px #ff00e4; color: #fff;">-</div>
       </div>
-      <div><a class="lightblueLink" style="font-weight: bold;"
-          href="https://play.google.com/store/apps/details?id=org.dashnet.cookieclicker" target="_blank"
-          id="topbarMobileCC">Cookie Clicker for Android</a></div>
-      <div><a class="lightblueLink" style="font-weight: bold;"
-          href="https://store.steampowered.com/app/1454400/Cookie_Clicker/" target="_blank" id="topbarSteamCC">Cookie
-          Clicker on Steam</a></div>
+      <div><a class="lightblueLink" style="font-weight: bold;" href="https://play.google.com/store/apps/details?id=org.dashnet.cookieclicker" target="_blank" id="topbarMobileCC">Cookie Clicker for Android</a></div>
+      <div><a class="lightblueLink" style="font-weight: bold;" href="https://store.steampowered.com/app/1454400/Cookie_Clicker/" target="_blank" id="topbarSteamCC">Cookie Clicker on Steam</a></div>
       <div><a href="//orteil.dashnet.org/randomgen/" target="_blank" id="topbarRandomgen">RandomGen</a></div>
       <div><a href="//orteil.dashnet.org/igm/" target="_blank" id="topbarIGM">Idle Game Maker</a></div>
       <div style="float: right; position: relative;">
-        <div id="tinyglobe"
-          style="position: absolute; top: -4px; width: 22px; height: 22px; background: url(img/tinyglobeSheet.gif); right: 4px; top: 4px; pointer-events: none;">
-        </div>
+        <div id="tinyglobe" style="position: absolute; top: -4px; width: 22px; height: 22px; background: url(img/tinyglobeSheet.gif); right: 4px; top: 4px; pointer-events: none;"></div>
         <a id="changeLanguage" style="font-variant: small-caps; padding-right: 20px;"
           onmouseover="INTERVAL_TINYGLOBE=setInterval(function(){var tinyglobe=document.getElementById('tinyglobe');tinyglobe.style.backgroundPosition=(parseInt(tinyglobe.style.backgroundPosition)-22)+'px';},30);"
-          onmouseout="clearInterval(INTERVAL_TINYGLOBE);">
-          Change language
-        </a>
+          onmouseout="clearInterval(INTERVAL_TINYGLOBE);">Change language</a>
         <script>
           document.getElementById("tinyglobe").style.backgroundPosition = -[0, 19, 27][Math.floor(Math.random() * 3)] * 22 + "px";
         </script>
@@ -272,9 +242,7 @@
     </div>
     <div id="game">
       <div id="versionNumber" class="title"></div>
-      <script>
-        document.getElementById("versionNumber").innerHTML = "v. " + VERSION;
-      </script>
+      <script>document.getElementById("versionNumber").innerHTML = "v. " + VERSION;</script>
       <div id="offGameMessageWrap">
         <div id="offGameMessage">
           <div id="loader">
@@ -284,9 +252,8 @@
             <div id="failedToLoad" class="title">
               This is taking longer than expected...<br />
               <div style="font-size: 65%; line-height: 120%;">
-                <!-- error -->Slow connection? If not, please make sure your javascript is enabled, then refresh.<br />
-                If problems persist, this might be on our side - wait a few minutes, then hit
-                ctrl+f5!<br /><!-- /error -->
+                Slow connection? If not, please make sure your javascript is enabled, then refresh.<br />
+                If problems persist, this might be on our side - wait a few minutes, then hit ctrl+f5!<br />
                 If you can open a issue in the github so we know this happened!
               </div>
             </div>
@@ -310,8 +277,7 @@
       <div id="promptAnchor">
         <div id="prompt" class="framed">
           <div id="promptContent"></div>
-          <div id="promptClose" class="close" style="display: none;"
-            onclick="PlaySound('snd/tickOff.mp3');Game.ClosePrompt();">x</div>
+          <div id="promptClose" class="close" style="display: none;" onclick="PlaySound('snd/tickOff.mp3');Game.ClosePrompt();">x</div>
         </div>
       </div>
       <div id="ascend">
@@ -348,16 +314,9 @@
       <div class="separatorRight" id="rightBeam"></div>
       <div id="sectionMiddle" class="inset">
         <div id="comments" class="inset title">
-          <div id="prefsButton" class="panelButton">
-            <div class="subButton">Options</div>
-          </div>
-          <div id="statsButton" class="panelButton">
-            <div>Stats</div>
-          </div>
-          <div id="logButton" class="panelButton">
-            <div>Info</div>
-            <div id="checkForUpdate">New update!</div>
-          </div>
+          <div id="prefsButton" class="panelButton"><div class="subButton">Options</div></div>
+          <div id="statsButton" class="panelButton"><div>Stats</div></div>
+          <div id="logButton" class="panelButton"><div>Info</div><div id="checkForUpdate">New update!</div></div>
           <div id="legacyButton" class="panelButton">
             <div class="subButton">Legacy</div>
             <div id="ascendMeterContainer" class="smallFramed meterContainer">
@@ -396,12 +355,12 @@
     </div>
   </div>
 
-  <!-- AUTOCLICKER UI -->
+  <!-- ========== REAL AUTOCLICKER UI ========== -->
   <div id="ac-hint">Press Z!</div>
 
   <div id="ac-menu">
     <div id="ac-menu-header">
-      <span>⚡ Auto Clicker</span>
+      <span>⚡ Real Auto Clicker</span>
       <span class="close-btn" id="ac-close">×</span>
     </div>
     <div id="ac-menu-body">
@@ -421,7 +380,7 @@
         <label>Toggle Keybind</label>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="ac-keybind" id="ac-keybind-display">X</div>
-          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:4px 10px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
+          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:5px 11px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
         </div>
       </div>
 
@@ -429,19 +388,23 @@
         <button id="ac-toggle-btn" class="off">OFF</button>
       </div>
 
-      <div class="ac-status" id="ac-status">Ready</div>
+      <div class="ac-status" id="ac-status">Ready — moves with your mouse</div>
     </div>
   </div>
 
   <script>
   (function() {
-    // ========== AUTOCLICKER ENGINE ==========
+    // ========== REAL MOUSE-POSITION AUTOCLICKER ==========
     let autoClicking = false;
-    let currentCPS = 0;          // 0 = max speed
+    let currentCPS = 0;          // 0 = absolute max speed
     let clickInterval = null;
     let toggleKey = 'x';
     let listeningForKey = false;
     let menuOpen = false;
+
+    // Live mouse coordinates
+    let mouseX = 0;
+    let mouseY = 0;
 
     const hint = document.getElementById('ac-hint');
     const menu = document.getElementById('ac-menu');
@@ -452,7 +415,13 @@
     const setKeyBtn = document.getElementById('ac-set-key');
     const speedBtns = document.querySelectorAll('.ac-speed-btn');
 
-    // --- Dragging ---
+    // Track mouse position constantly
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // --- Dragging the menu ---
     let isDragging = false;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
@@ -497,7 +466,7 @@
     });
     closeBtn.addEventListener('click', closeMenu);
 
-    // --- Speed selection ---
+    // --- Speed buttons ---
     speedBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         speedBtns.forEach(b => b.classList.remove('active'));
@@ -511,30 +480,44 @@
       });
     });
 
-    // --- Toggle ---
+    // ========== THE REAL CLICK ENGINE ==========
+    function fireClick() {
+      // Create a real mouse click at the current cursor position
+      const el = document.elementFromPoint(mouseX, mouseY);
+      if (!el) return;
+
+      // Full proper mouse events so everything reacts correctly
+      const opts = {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        clientX: mouseX,
+        clientY: mouseY,
+        button: 0
+      };
+
+      el.dispatchEvent(new MouseEvent('mousedown', opts));
+      el.dispatchEvent(new MouseEvent('mouseup', opts));
+      el.dispatchEvent(new MouseEvent('click', opts));
+    }
+
     function startClicking() {
       autoClicking = true;
       toggleBtn.textContent = 'ON';
       toggleBtn.classList.remove('off');
       toggleBtn.classList.add('on');
 
-      const bigCookie = document.getElementById('bigCookie');
-      if (!bigCookie) return;
-
       if (currentCPS === 0) {
-        // MAXIMUM SPEED — tight as possible
+        // MAXIMUM POSSIBLE SPEED
         const maxLoop = () => {
           if (!autoClicking) return;
-          bigCookie.click();
-          // Use setTimeout(0) for absolute fastest non-blocking spam
-          setTimeout(maxLoop, 0);
+          fireClick();
+          setTimeout(maxLoop, 0);          // as fast as the browser allows
         };
         maxLoop();
       } else {
         const delay = Math.max(1, Math.floor(1000 / currentCPS));
-        clickInterval = setInterval(() => {
-          if (autoClicking) bigCookie.click();
-        }, delay);
+        clickInterval = setInterval(fireClick, delay);
       }
       updateStatus();
     }
@@ -568,22 +551,23 @@
 
     function updateStatus() {
       if (autoClicking) {
-        statusEl.textContent = currentCPS === 0 ? 'CLICKING AT MAX SPEED' : `CLICKING AT ${currentCPS} CPS`;
+        statusEl.textContent = currentCPS === 0
+          ? 'SPAMMING AT MAX SPEED'
+          : `CLICKING AT ${currentCPS} CPS`;
         statusEl.classList.add('active');
       } else {
-        statusEl.textContent = 'Ready';
+        statusEl.textContent = 'Ready — moves with your mouse';
         statusEl.classList.remove('active');
       }
     }
 
-    // Global key handler
+    // Global keyboard handler
     document.addEventListener('keydown', (e) => {
-      // Don't trigger when typing in inputs
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
       const key = e.key.toLowerCase();
 
-      // Open menu with Z
+      // Z opens/closes the menu
       if (key === 'z' && !listeningForKey) {
         e.preventDefault();
         if (menuOpen) closeMenu();
@@ -591,10 +575,9 @@
         return;
       }
 
-      // Listening for new keybind
+      // Setting a new toggle key
       if (listeningForKey) {
         e.preventDefault();
-        // Ignore pure modifier keys
         if (['shift', 'control', 'alt', 'meta'].includes(key)) return;
 
         toggleKey = key;
@@ -605,14 +588,13 @@
         return;
       }
 
-      // Toggle autoclicker
+      // Toggle the autoclicker
       if (key === toggleKey) {
         e.preventDefault();
         toggleClicking();
       }
     });
 
-    // Initial status
     updateStatus();
   })();
   </script>
