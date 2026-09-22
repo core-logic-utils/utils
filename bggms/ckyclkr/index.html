@@ -34,7 +34,7 @@
       bottom: 12px;
       left: 12px;
       z-index: 9999999;
-      background: rgba(0,0,0,0.88);
+      background: rgba(0,0,0,0.9);
       color: #fff;
       font-family: "Merriweather", Georgia, serif;
       font-size: 14px;
@@ -43,17 +43,17 @@
       border-radius: 6px;
       cursor: pointer;
       user-select: none;
-      box-shadow: 0 0 16px rgba(255,200,50,0.6);
+      box-shadow: 0 0 16px rgba(255,200,50,0.65);
     }
     #ac-hint:hover {
-      background: rgba(70,45,10,0.95);
-      box-shadow: 0 0 22px rgba(255,220,80,0.9);
+      background: rgba(80,50,10,0.95);
+      box-shadow: 0 0 24px rgba(255,220,80,0.95);
     }
     #ac-menu {
       position: fixed;
       bottom: 60px;
       left: 12px;
-      width: 290px;
+      width: 300px;
       background: linear-gradient(180deg, #2a1f0f 0%, #1a1208 100%);
       border: 3px solid #c0a060;
       border-radius: 10px;
@@ -109,7 +109,7 @@
     .ac-speed-btn.active {
       background: #8a6020;
       border-color: #ffcc66;
-      box-shadow: 0 0 10px rgba(255,200,50,0.65);
+      box-shadow: 0 0 10px rgba(255,200,50,0.7);
       font-weight: bold;
     }
     #ac-toggle-btn {
@@ -127,7 +127,7 @@
     #ac-toggle-btn.on {
       background: #1a5a1a;
       border-color: #50d040;
-      box-shadow: 0 0 18px rgba(80,220,60,0.65);
+      box-shadow: 0 0 18px rgba(80,220,60,0.7);
     }
     #ac-toggle-btn.off {
       background: #5a1a1a;
@@ -326,7 +326,7 @@
     </div>
   </div>
 
-  <!-- HIGH SPEED REAL AUTOCLICKER -->
+  <!-- REAL + GAME-AWARE AUTOCLICKER -->
   <div id="ac-hint">Press Z!</div>
 
   <div id="ac-menu">
@@ -338,10 +338,10 @@
       <div class="ac-row">
         <label>Click Speed</label>
         <div class="ac-speed-buttons">
-          <button class="ac-speed-btn" data-mode="20">20 CPS</button>
-          <button class="ac-speed-btn" data-mode="60">60 CPS</button>
-          <button class="ac-speed-btn" data-mode="150">150 CPS</button>
-          <button class="ac-speed-btn" data-mode="400">400 CPS</button>
+          <button class="ac-speed-btn" data-mode="30">30 CPS</button>
+          <button class="ac-speed-btn" data-mode="100">100 CPS</button>
+          <button class="ac-speed-btn" data-mode="250">250 CPS</button>
+          <button class="ac-speed-btn" data-mode="500">500 CPS</button>
           <button class="ac-speed-btn" data-mode="1000">1000 CPS</button>
           <button class="ac-speed-btn active" data-mode="max">MAX</button>
         </div>
@@ -357,26 +357,24 @@
 
       <button id="ac-toggle-btn" class="off">OFF</button>
 
-      <div class="ac-status" id="ac-status">Ready — keep tab focused</div>
+      <div class="ac-status" id="ac-status">Ready</div>
     </div>
   </div>
 
   <script>
   (function () {
     let autoClicking = false;
-    let mode = 'max';                 // 'max' or a number
+    let mode = 'max';
     let toggleKey = 'x';
     let listeningForKey = false;
     let menuOpen = false;
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
+    let mouseX = 0;
+    let mouseY = 0;
     let clicksThisSecond = 0;
     let lastSecond = performance.now();
     let shownCPS = 0;
     let intervalId = null;
-    let rafId = null;
 
-    // continuous mouse tracking
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -422,7 +420,6 @@
     hint.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
     closeBtn.addEventListener('click', closeMenu);
 
-    // speed buttons
     speedBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         speedBtns.forEach(b => b.classList.remove('active'));
@@ -436,9 +433,24 @@
       });
     });
 
-    // ========== ACTUAL FAST ENGINE ==========
+    // ========== THE ACTUAL FIX ==========
+    // Cookie Clicker is slow because the bigCookie click handler is extremely heavy.
+    // So when the mouse is over the cookie we call the game function directly.
+    // Everywhere else we do a normal DOM click.
+
     function doClick() {
       const el = document.elementFromPoint(mouseX, mouseY);
+
+      // Fast path for the big cookie
+      if (el && (el.id === 'bigCookie' || el.closest('#bigCookie') || el.closest('#cookieAnchor'))) {
+        if (typeof Game !== 'undefined' && typeof Game.ClickCookie === 'function') {
+          Game.ClickCookie();
+          clicksThisSecond++;
+          return;
+        }
+      }
+
+      // Normal path for everything else
       if (el) {
         el.click();
         clicksThisSecond++;
@@ -448,17 +460,11 @@
     function maxLoop() {
       if (!autoClicking || mode !== 'max') return;
 
-      // fire a burst every tick
-      doClick();
-      doClick();
-      doClick();
-      doClick();
-      doClick();
-      doClick();
-      doClick();
-      doClick();
+      // Big burst
+      doClick(); doClick(); doClick(); doClick();
+      doClick(); doClick(); doClick(); doClick();
+      doClick(); doClick(); doClick(); doClick();
 
-      // recursive setTimeout(0) is the most reliable high-speed method left
       setTimeout(maxLoop, 0);
     }
 
@@ -478,7 +484,7 @@
         intervalId = setInterval(doClick, delay);
       }
 
-      // CPS display updater
+      // CPS counter
       function tick() {
         if (!autoClicking) return;
         const now = performance.now();
@@ -488,9 +494,9 @@
           lastSecond = now;
           updateStatus();
         }
-        rafId = requestAnimationFrame(tick);
+        requestAnimationFrame(tick);
       }
-      rafId = requestAnimationFrame(tick);
+      requestAnimationFrame(tick);
 
       updateStatus();
     }
@@ -500,14 +506,9 @@
       toggleBtn.textContent = 'OFF';
       toggleBtn.classList.remove('on');
       toggleBtn.classList.add('off');
-
       if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
-      }
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
       }
       updateStatus();
     }
@@ -529,16 +530,15 @@
     function updateStatus() {
       if (autoClicking) {
         statusEl.textContent = mode === 'max'
-          ? `MAX — ~${shownCPS} CPS (keep tab focused)`
+          ? `MAX — ~${shownCPS} CPS`
           : `${mode} CPS — actual ~${shownCPS}`;
         statusEl.classList.add('active');
       } else {
-        statusEl.textContent = 'Ready — keep tab focused';
+        statusEl.textContent = 'Ready';
         statusEl.classList.remove('active');
       }
     }
 
-    // keyboard
     document.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       const key = e.key.toLowerCase();
