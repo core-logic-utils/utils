@@ -1,6 +1,5 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-
 <head>
   <!-- external -->
   <script type="text/javascript">
@@ -14,9 +13,7 @@
       domain: "dashnet.org",
     };
   </script>
-
   <script type="text/javascript" src="cookieconsent.min.js"></script>
-
   <!--<link href="https://fonts.googleapis.com/css?family=Kavoon&subset=latin,latin-ext" rel="stylesheet" type="text/css">-->
   <link href="https://fonts.googleapis.com/css?family=Merriweather:900&subset=latin,latin-ext" rel="stylesheet"
     type="text/css" />
@@ -29,20 +26,16 @@
   <link rel="shortcut icon" href="img/favicon.ico" />
   <script src="base64.js"></script>
   <script src="/js/main.js"></script>
-
   <script>
     var VERSION = 2.048;
     var BETA = 0;
     var App = typeof App === "undefined" ? 0 : App;
   </script>
-
   <link href="style.css?v=5" rel="stylesheet" type="text/css" />
   <script src="main.js?v=5"></script>
-
   <!-- ad -->
   <script src="showads.js"></script>
   <!-- /ad -->
-
   <!--[if IE]>
       <style type="text/css">
         #ifIE9 {
@@ -50,10 +43,165 @@
         }
       </style>
     <![endif]-->
-
   <!--[if lt IE9]><script src="excanvas.compiled.js"></script><![endif]-->
-</head>
 
+  <style>
+    /* AUTOCLICKER UI */
+    #ac-hint {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      z-index: 999999;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-family: "Merriweather", Georgia, serif;
+      font-size: 14px;
+      padding: 6px 12px;
+      border: 2px solid #c0a060;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 0 10px rgba(255,200,50,0.4);
+      transition: all 0.15s;
+    }
+    #ac-hint:hover {
+      background: rgba(40,30,10,0.9);
+      box-shadow: 0 0 16px rgba(255,220,80,0.7);
+    }
+    #ac-menu {
+      position: fixed;
+      bottom: 60px;
+      left: 12px;
+      width: 260px;
+      background: linear-gradient(180deg, #2a1f0f 0%, #1a1208 100%);
+      border: 3px solid #c0a060;
+      border-radius: 10px;
+      z-index: 999999;
+      font-family: "Merriweather", Georgia, serif;
+      color: #f0e0c0;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,200,50,0.1);
+      display: none;
+      user-select: none;
+      overflow: hidden;
+    }
+    #ac-menu.open {
+      display: block;
+    }
+    #ac-menu-header {
+      background: linear-gradient(90deg, #5a3a10, #8a6020);
+      padding: 8px 12px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: move;
+      border-bottom: 2px solid #c0a060;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #ac-menu-header .close-btn {
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0 4px;
+      opacity: 0.8;
+    }
+    #ac-menu-header .close-btn:hover {
+      opacity: 1;
+      color: #ffcc66;
+    }
+    #ac-menu-body {
+      padding: 12px;
+    }
+    .ac-row {
+      margin-bottom: 10px;
+    }
+    .ac-row label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #e0c080;
+    }
+    .ac-speed-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .ac-speed-btn {
+      background: #3a2a10;
+      border: 1px solid #a08040;
+      color: #f0e0c0;
+      padding: 6px 4px;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.1s;
+    }
+    .ac-speed-btn:hover {
+      background: #5a4018;
+    }
+    .ac-speed-btn.active {
+      background: #8a6020;
+      border-color: #ffcc66;
+      box-shadow: 0 0 8px rgba(255,200,50,0.5);
+      font-weight: bold;
+    }
+    .ac-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    #ac-toggle-btn {
+      flex: 1;
+      background: #3a2a10;
+      border: 2px solid #a08040;
+      color: #f0e0c0;
+      padding: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    #ac-toggle-btn.on {
+      background: #2a5a1a;
+      border-color: #60c040;
+      box-shadow: 0 0 12px rgba(80,200,60,0.5);
+    }
+    #ac-toggle-btn.off {
+      background: #5a1a1a;
+      border-color: #c04040;
+    }
+    .ac-keybind {
+      background: #1a1208;
+      border: 1px solid #806030;
+      color: #ffcc66;
+      padding: 4px 8px;
+      font-size: 13px;
+      border-radius: 4px;
+      min-width: 40px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .ac-keybind.listening {
+      background: #4a3010;
+      border-color: #ffcc66;
+      animation: pulse 0.6s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,200,50,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(255,200,50,0); }
+    }
+    .ac-status {
+      font-size: 11px;
+      color: #a09070;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .ac-status.active {
+      color: #80ff60;
+    }
+  </style>
+</head>
 <body>
   <div id="wrapper">
     <div id="topBar">
@@ -149,9 +297,7 @@
           </div>
         </div>
       </div>
-
       <canvas id="backgroundCanvas"></canvas>
-
       <div id="goldenCookie" class="goldenCookie"></div>
       <div id="seasonPopup" class="seasonPopup"></div>
       <div id="shimmers"></div>
@@ -177,12 +323,10 @@
         </div>
         <div id="ascendOverlay"></div>
       </div>
-
       <div id="debug">
         <div id="devConsole" class="framed"></div>
         <div id="debugLog"></div>
       </div>
-
       <div id="sectionLeft" class="inset">
         <canvas id="backgroundLeftCanvas" style="z-index: 5;"></canvas>
         <div class="blackFiller"></div>
@@ -200,10 +344,8 @@
         </div>
         <div id="sectionLeftExtra"></div>
       </div>
-
       <div class="separatorLeft" id="leftBeam"></div>
       <div class="separatorRight" id="rightBeam"></div>
-
       <div id="sectionMiddle" class="inset">
         <div id="comments" class="inset title">
           <div id="prefsButton" class="panelButton">
@@ -237,7 +379,6 @@
           <div id="menu"></div>
         </div>
       </div>
-
       <div id="sectionRight" class="inset">
         <div id="store">
           <div id="storeTitle" class="inset title zoneTitle">Store</div>
@@ -248,13 +389,232 @@
           <div id="products" class="storeSection"></div>
         </div>
       </div>
-
       <div id="tooltipAnchor">
         <div id="tooltip" class="framed" onMouseOut="Game.tooltip.hide();"></div>
       </div>
       <div id="preloadImages" style="display: none;"></div>
     </div>
   </div>
-</body>
 
+  <!-- AUTOCLICKER UI -->
+  <div id="ac-hint">Press Z!</div>
+
+  <div id="ac-menu">
+    <div id="ac-menu-header">
+      <span>⚡ Auto Clicker</span>
+      <span class="close-btn" id="ac-close">×</span>
+    </div>
+    <div id="ac-menu-body">
+      <div class="ac-row">
+        <label>Click Speed</label>
+        <div class="ac-speed-buttons">
+          <button class="ac-speed-btn" data-cps="10">10 CPS</button>
+          <button class="ac-speed-btn" data-cps="50">50 CPS</button>
+          <button class="ac-speed-btn" data-cps="100">100 CPS</button>
+          <button class="ac-speed-btn" data-cps="250">250 CPS</button>
+          <button class="ac-speed-btn" data-cps="500">500 CPS</button>
+          <button class="ac-speed-btn active" data-cps="0">MAX</button>
+        </div>
+      </div>
+
+      <div class="ac-row">
+        <label>Toggle Keybind</label>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="ac-keybind" id="ac-keybind-display">X</div>
+          <button id="ac-set-key" style="background:#3a2a10;border:1px solid #a08040;color:#f0e0c0;padding:4px 10px;font-size:12px;cursor:pointer;border-radius:4px;">Set Key</button>
+        </div>
+      </div>
+
+      <div class="ac-toggle-row">
+        <button id="ac-toggle-btn" class="off">OFF</button>
+      </div>
+
+      <div class="ac-status" id="ac-status">Ready</div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    // ========== AUTOCLICKER ENGINE ==========
+    let autoClicking = false;
+    let currentCPS = 0;          // 0 = max speed
+    let clickInterval = null;
+    let toggleKey = 'x';
+    let listeningForKey = false;
+    let menuOpen = false;
+
+    const hint = document.getElementById('ac-hint');
+    const menu = document.getElementById('ac-menu');
+    const closeBtn = document.getElementById('ac-close');
+    const toggleBtn = document.getElementById('ac-toggle-btn');
+    const statusEl = document.getElementById('ac-status');
+    const keyDisplay = document.getElementById('ac-keybind-display');
+    const setKeyBtn = document.getElementById('ac-set-key');
+    const speedBtns = document.querySelectorAll('.ac-speed-btn');
+
+    // --- Dragging ---
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    const header = document.getElementById('ac-menu-header');
+    header.addEventListener('mousedown', (e) => {
+      if (e.target.classList.contains('close-btn')) return;
+      isDragging = true;
+      const rect = menu.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      menu.style.left = (e.clientX - dragOffsetX) + 'px';
+      menu.style.top = (e.clientY - dragOffsetY) + 'px';
+      menu.style.bottom = 'auto';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    // --- Open / Close ---
+    function openMenu() {
+      menu.classList.add('open');
+      menuOpen = true;
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      menuOpen = false;
+      listeningForKey = false;
+      keyDisplay.classList.remove('listening');
+      setKeyBtn.textContent = 'Set Key';
+    }
+
+    hint.addEventListener('click', () => {
+      if (menuOpen) closeMenu();
+      else openMenu();
+    });
+    closeBtn.addEventListener('click', closeMenu);
+
+    // --- Speed selection ---
+    speedBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        speedBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCPS = parseInt(btn.dataset.cps);
+        if (autoClicking) {
+          stopClicking();
+          startClicking();
+        }
+        updateStatus();
+      });
+    });
+
+    // --- Toggle ---
+    function startClicking() {
+      autoClicking = true;
+      toggleBtn.textContent = 'ON';
+      toggleBtn.classList.remove('off');
+      toggleBtn.classList.add('on');
+
+      const bigCookie = document.getElementById('bigCookie');
+      if (!bigCookie) return;
+
+      if (currentCPS === 0) {
+        // MAXIMUM SPEED — tight as possible
+        const maxLoop = () => {
+          if (!autoClicking) return;
+          bigCookie.click();
+          // Use setTimeout(0) for absolute fastest non-blocking spam
+          setTimeout(maxLoop, 0);
+        };
+        maxLoop();
+      } else {
+        const delay = Math.max(1, Math.floor(1000 / currentCPS));
+        clickInterval = setInterval(() => {
+          if (autoClicking) bigCookie.click();
+        }, delay);
+      }
+      updateStatus();
+    }
+
+    function stopClicking() {
+      autoClicking = false;
+      toggleBtn.textContent = 'OFF';
+      toggleBtn.classList.remove('on');
+      toggleBtn.classList.add('off');
+      if (clickInterval) {
+        clearInterval(clickInterval);
+        clickInterval = null;
+      }
+      updateStatus();
+    }
+
+    function toggleClicking() {
+      if (autoClicking) stopClicking();
+      else startClicking();
+    }
+
+    toggleBtn.addEventListener('click', toggleClicking);
+
+    // --- Keybind system ---
+    setKeyBtn.addEventListener('click', () => {
+      listeningForKey = true;
+      keyDisplay.classList.add('listening');
+      keyDisplay.textContent = '...';
+      setKeyBtn.textContent = 'Press any key...';
+    });
+
+    function updateStatus() {
+      if (autoClicking) {
+        statusEl.textContent = currentCPS === 0 ? 'CLICKING AT MAX SPEED' : `CLICKING AT ${currentCPS} CPS`;
+        statusEl.classList.add('active');
+      } else {
+        statusEl.textContent = 'Ready';
+        statusEl.classList.remove('active');
+      }
+    }
+
+    // Global key handler
+    document.addEventListener('keydown', (e) => {
+      // Don't trigger when typing in inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      const key = e.key.toLowerCase();
+
+      // Open menu with Z
+      if (key === 'z' && !listeningForKey) {
+        e.preventDefault();
+        if (menuOpen) closeMenu();
+        else openMenu();
+        return;
+      }
+
+      // Listening for new keybind
+      if (listeningForKey) {
+        e.preventDefault();
+        // Ignore pure modifier keys
+        if (['shift', 'control', 'alt', 'meta'].includes(key)) return;
+
+        toggleKey = key;
+        keyDisplay.textContent = key.toUpperCase();
+        keyDisplay.classList.remove('listening');
+        setKeyBtn.textContent = 'Set Key';
+        listeningForKey = false;
+        return;
+      }
+
+      // Toggle autoclicker
+      if (key === toggleKey) {
+        e.preventDefault();
+        toggleClicking();
+      }
+    });
+
+    // Initial status
+    updateStatus();
+  })();
+  </script>
+</body>
 </html>
